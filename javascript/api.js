@@ -8,7 +8,7 @@ var api_ver = "v5";
 
 var lang = "en";
 
-var year = "2017";
+var year = "2018";
 
 var season = "REG";
 
