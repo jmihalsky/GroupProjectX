@@ -75,5 +75,6 @@ auth.onAuthStateChanged(firebaseUser, function(){
         $("#main").css("display", "none");
     }
 });
+
 console.log(firebase.auth());
 // startup();
