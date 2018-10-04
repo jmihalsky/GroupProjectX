@@ -16,53 +16,60 @@ $("#main").css("display", "none");
 //}
 
 // Still to do : data validation
-const emailTxt = $("#emailInput").val().trim();
-const passwordTxt = $("#passwordInput").val().trim();
+
 const btnLogin = $("#loginBtn");
 const btnLogout = $("#logoutBtn");
 const btnNewUser = $("#newUserBtn");
 
 // Login button action - no such button - created for login
-btnLogin.on("click", function (e) { 
+btnLogin.on("click", function(e) { 
   e.preventDefault();
-  const email = emailTxt;
-  const pass = passwordTxt;
-  const auth = firebase.auth();
-  auth.signInWithEmailAndPassword(email, pass).catch(function(error) {
-    // Handle Errors here.
-    var errorCode = error.code;
-    var errorMessage = error.message;
-    // ...
-  });
-  $("#login").css("display", "none");
-  $("#main").css("display", "block");
-});
-
-
-// No new button yet - id should be signupBtn
-btnNewUser.on("click",function(e){
-    e.preventDefault();
+  var x = $(".form-control").val();
+if (x == "") {
+    alert('Please sign in or create an account to use "The Catch"');
+} else {
+    const emailTxt = $("#emailInput").val().trim();
+    const passwordTxt = $("#passwordInput").val().trim();
     const email = emailTxt;
     const pass = passwordTxt;
     const auth = firebase.auth();
-    auth.createUserWithEmailAndPassword(email, pass).catch(function(error) {
-      // Handle Errors here.
-      var errorCode = error.code;
-      var errorMessage = error.message;
-      // ...
-    });
+    if ($("#createAccount").is(":checked")) {
+        //creates a new account with username and password
+        console.log("I checked box");
+        const promise = auth.createUserWithEmailAndPassword(email, pass);
+        promise.catch(e => console.log(e.message));
+        display();
+        
+       
+      } else {
+          console.log("i did not check box");
+          //logs in with existing user
+          const promise = auth.signInWithEmailAndPassword(email, pass);
+          promise.catch(e => console.log(e.message));
+          display();
+          }
+  //removes login widget to show stats
+
+}
+});
+function display(){
     $("#login").css("display", "none");
     $("#main").css("display", "block");
-});
+};
+
 
 // No logout button yet - hidden until signed in... - id has to be logoutBtn
 btnLogout.on("click", function(e){
     e.preventDefault();
     firebase.auth().signOut();
+    $("#login").css("display", "block");
+    $("#main").css("display", "none");
 })
 
+
+
 // Listen for change in authentication state
-auth.onAuthStateChanged(firebaseUser, function(){
+auth.onAuthStateChanged(firebaseUser => {
     if (firebaseUser){
        console.log(firebaseUser);
         $("#logoutBtn").css("display","block");
