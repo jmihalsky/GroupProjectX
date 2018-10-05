@@ -9,53 +9,86 @@ const config = {
 firebase.initializeApp(config);
 var database = firebase.database();
 var auth = firebase.auth();
+var showData = false;
 
-//function startup() {
+
 $("#login").css("display", "block");
 $("#main").css("display", "none");
-//}
 
-// Still to do : data validation
+var errorSection = $(".error");
+var btnLogin = $("#loginBtn");
+var btnLogout = $("#logoutBtn");
 
-const btnLogin = $("#loginBtn");
-const btnLogout = $("#logoutBtn");
-const btnNewUser = $("#newUserBtn");
-
-// Login button action - no such button - created for login
+//clicking login button
 btnLogin.on("click", function (e) {
     e.preventDefault();
     var x = $(".form-email").val();
     var y = $(".form-password").val();
     if ((x == "") || (y == 0)) {
-        alert('Please sign in or create an account to use "The Catch"');
+        $(errorSection).html("<p>Please fill out both email/password to use 'The Catch'.</p>");
     } else {
-        const emailTxt = $("#emailInput").val().trim();
-        const passwordTxt = $("#passwordInput").val().trim();
-        const email = emailTxt;
-        const pass = passwordTxt;
-        const auth = firebase.auth();
+        var emailTxt = $("#emailInput").val().trim();
+        var passwordTxt = $("#passwordInput").val().trim();
+        var email = emailTxt;
+        var pass = passwordTxt;
+        var auth = firebase.auth();
         if ($("#createAccount").is(":checked")) {
             //creates a new account with username and password
             console.log("I checked box");
-            const promise = auth.createUserWithEmailAndPassword(email, pass);
-            promise.catch(e => console.log(e.message));
-            display();
-
-
+            auth.createUserWithEmailAndPassword(email, pass).catch(function (error) {
+                // Handle Errors here.
+                var errorCode = error.code;
+                var errorMessage = error.message;
+                // [START_EXCLUDE]
+                if (errorCode == 'auth/weak-password') {
+                    $(errorSection).html("<p>The password is too weak.</p>");
+                } else if (errorCode == 'auth/email-already-in-use') {
+                    $(errorSection).html("<p>The email address is already in use by another account.<p>");
+                } else if (errorCode) {
+                    console.log(errorCode);
+                    console.log(errorMessage);
+                } else {
+                    showData = true;
+                    $(errorSection).empty();
+                }
+                return showData;
+                display();
+                console.log(error);
+                // [END_EXCLUDE]
+            });
+            // [END authwithemail]
         } else {
             console.log("i did not check box");
             //logs in with existing user
-            const promise = auth.signInWithEmailAndPassword(email, pass);
-            promise.catch(e => console.log(e.message));
-            display();
+            auth.signInWithEmailAndPassword(email, pass).catch(function (error) {
+                var errorCode = error.code;
+                var errorMessage = error.message;
+                // [START_EXCLUDE]
+                if (errorCode === 'auth/wrong-password') {
+                    $(errorSection).html("<p>Wrong Password</p>");
+                } else if (errorCode) {
+                    console.log(errorMessage);
+                } else {
+                    $(errorSection).empty();
+                    showData = true;
+                }
+                return showData;
+                display();
+                console.log(error);
+            });
         }
-        //removes login widget to show stats
-
     }
 });
+
+
 function display() {
-    $("#login").css("display", "none");
-    $("#main").css("display", "block");
+    if (showdata == true) {
+        $("#login").css("display", "none");
+        $("#main").css("display", "block");
+    } else {
+        $("#login").css("display", "block");
+        $("#main").css("display", "none");
+    }
 };
 
 
@@ -63,6 +96,7 @@ function display() {
 btnLogout.on("click", function (e) {
     e.preventDefault();
     firebase.auth().signOut();
+    $(errorSection).empty();
     $("#login").css("display", "block");
     $("#main").css("display", "none");
 })
