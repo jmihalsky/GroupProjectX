@@ -1,29 +1,33 @@
-var week = 5;
+var week = ; //parseInt($("#curWk").val());
 var apikey = "ac3cad31a30047cb96196832877aaad8";
-var api2_url = "https://api.fantasydata.net/v3/nfl/odds/JSON/GameOddsByWeek/2018/"+week;
+var api2_url = "https://api.fantasydata.net/v3/nfl/odds/JSON/GameOddsByWeek/2018/" + week;
 
 
-$(function(){
-    // var params = {
-    //     //request parameters
-    // };
+var homeTeam;
+var awayTeam;
+var homeTeamOdds;
+var awayTeamOdds;
+
+
+$(function () {
     $.ajax({
-    url: api2_url, // + $.param(params),
-    beforeSend: function(xhrObj){
-        // Request headers
-        xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key","ac3cad31a30047cb96196832877aaad8");
-    },
-    type: "GET",
-    // Request body
-    data: "{responses}",
+        url: api2_url,
+        beforeSend: function (xhrObj) {
+            xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key", "ac3cad31a30047cb96196832877aaad8");
+        },
+        type: "GET",
+        data: "{body}",
+    }).done(function (data) {
+        console.log(data);
+        for (var i = 0; i < data.length; i++) {
+            homeTeam = (data[i].HomeTeamName);
+            awayTeam = (data[i].AwayTeamName);
+            homeTeamOdds = (data[i].PregameOdds["0"].HomeMoneyLine);
+            awayTeamOdds = (data[i].PregameOdds["0"].AwayMoneyLine);
+
+            console.log(homeTeam + ":" + homeTeamOdds);
+            console.log(awayTeam + ":" + awayTeamOdds);
+
+        }
     })
-    .done(function(data) {
-        alert("success");
-    })
-    .fail(function() {
-        alert("error");
-    });
 });
-
-console.log(responses);
-
