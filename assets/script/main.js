@@ -85,3 +85,13 @@ auth.onAuthStateChanged(firebaseUser => {
 
 console.log(firebase.auth());
 // startup();
+
+
+// Show last week's games and stats
+$(document).ready(function(){
+    $('.multiple-items').slick({
+        infinite:true,
+        slidesToShow: 5,
+        slidesToScroll:3
+    });
+});
