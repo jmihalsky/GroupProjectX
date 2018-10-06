@@ -122,34 +122,27 @@ console.log(firebase.auth());
 // startup();
 
 
-// Show last week's games and stats
-$(document).ready(function(){
-    $('.multiple-items').slick({
-        infinite:true,
-        slidesToShow: 5,
-        slidesToScroll:3
-    });
-});
-
 
 // Calculate curWeek using moment
 function getWeek(){
     var now = moment();
-    if (now is Between X and X){ return 1}
-    else if (){ return 2}
-    else if (){ return 3}
-    else if (){ return 4}
-    else if (){ return 5}
-    else if (){ return 6}
-    else if (){ return 7}
-    else if (){ return 8}
-    else if (){ return 9}
-    else if (){ return 10}
-    else if (){ return 11}
-    else if (){ return 12}
-    else if (){ return 13}
-    else if (){ return 14}
-    else if (){ return 15}
-    else if (){ return 16}
-    else if (){ return 17}
+    console.log(now);
+    if (now.isBetween("2018-09-04T00:00:01","2018-09-10T23:59:59")){ return 1};
+    if (now.isBetween("2018-09-11T00:00:01","2018-09-17T23:59:59")){ return 2}
+    if (now.isBetween("2018-09-18T00:00:01","2018-09-24T23:59:59")){ return 3}
+    if (now.isBetween("2018-09-25T00:00:01","2018-10-01T23:59:59")){ return 4}
+    if (now.isBetween("2018-10-02T00:00:01","2018-10-08T23:59:59")){ return 5}
+    if (now.isBetween("2018-10-09T00:00:01","2018-10-15T23:59:59")){ return 6}
+    if (now.isBetween("2018-10-16T00:00:01","2018-10-22T23:59:59")){ return 7}
+    if (now.isBetween("2018-10-23T00:00:01","2018-10-29T23:59:59")){ return 8}
+    if (now.isBetween("2018-10-30T00:00:01","2018-11-05T23:59:59")){ return 9}
+    if (now.isBetween("2018-11-06T00:00:01","2018-11-12T23:59:59")){ return 10}
+    if (now.isBetween("2018-11-13T00:00:01","2018-11-19T23:59:59")){ return 11}
+    if (now.isBetween("2018-11-20T00:00:01","2018-11-26T23:59:59")){ return 12}
+    if (now.isBetween("2018-11-27T00:00:01","2018-12-03T23:59:59")){ return 13}
+    if (now.isBetween("2018-12-04T00:00:01","2018-12-10T23:59:59")){ return 14}
+    if (now.isBetween("2018-12-11T00:00:01","2018-12-17T23:59:59")){ return 15}
+    if (now.isBetween("2018-12-18T00:00:01","2018-12-24T23:59:59")){ return 16}
+    if (now.isBetween("2018-12-25T00:00:01","2018-12-31T23:59:59")){ return 17}
 }
+curWeek = getWeek();

@@ -1,4 +1,5 @@
-var week = ; //parseInt($("#curWk").val());
+
+var week = curWeek;
 var apikey = "ac3cad31a30047cb96196832877aaad8";
 var api2_url = "https://api.fantasydata.net/v3/nfl/odds/JSON/GameOddsByWeek/2018/" + week;
 
