@@ -126,7 +126,6 @@ auth.onAuthStateChanged(firebaseUser => {
 // Calculate curWeek using "moment" library
 function getWeek(){
     var now = moment();
-    console.log(now);
     if (now.isBetween("2018-09-04T00:00:01","2018-09-10T23:59:59")){ return 1};
     if (now.isBetween("2018-09-11T00:00:01","2018-09-17T23:59:59")){ return 2}
     if (now.isBetween("2018-09-18T00:00:01","2018-09-24T23:59:59")){ return 3}
