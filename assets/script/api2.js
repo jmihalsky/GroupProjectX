@@ -19,16 +19,18 @@ $(function () {
         type: "GET",
         data: "{body}",
     }).done(function (data) {
-        console.log(data);
+        //console.log(data);
         for (var i = 0; i < data.length; i++) {
             homeTeam = (data[i].HomeTeamName);
             awayTeam = (data[i].AwayTeamName);
             homeTeamOdds = (data[i].PregameOdds["0"].HomeMoneyLine);
             awayTeamOdds = (data[i].PregameOdds["0"].AwayMoneyLine);
 
-            console.log(homeTeam + ":" + homeTeamOdds);
-            console.log(awayTeam + ":" + awayTeamOdds);
-
+            // console.log(homeTeam + ":" + homeTeamOdds);
+            // console.log(awayTeam + ":" + awayTeamOdds);
+            game_odds_key = awayTeam+"|"+homeTeam;
+            var odds = awayTeamOdds+":"+homeTeamOdds;
+            console.log(game_odds_key+" "+odds);
         }
     })
 });
