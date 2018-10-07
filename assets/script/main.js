@@ -118,7 +118,7 @@ auth.onAuthStateChanged(firebaseUser => {
     }
 });
 
-console.log(firebase.auth());
+// console.log(firebase.auth());
 // startup();
 
 

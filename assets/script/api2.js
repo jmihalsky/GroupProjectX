@@ -9,6 +9,7 @@ var awayTeam;
 var homeTeamOdds;
 var awayTeamOdds;
 
+var wkGameOdds=[];
 
 $(function () {
     $.ajax({
@@ -19,15 +20,23 @@ $(function () {
         type: "GET",
         data: "{body}",
     }).done(function (data) {
-
+        
         for (var i = 0; i < data.length; i++) {
-            homeTeam = (data[i].HomeTeamName);
-            awayTeam = (data[i].AwayTeamName);
-            homeTeamOdds = (data[i].PregameOdds["0"].HomeMoneyLine);
-            awayTeamOdds = (data[i].PregameOdds["0"].AwayMoneyLine);
-            game_odds_key = awayTeam+"|"+homeTeam;
-            var odds = awayTeamOdds+":"+homeTeamOdds;
-            console.log(game_odds_key+" "+odds);
+            var gameStats = {
+                key:"",
+                hTeam:"",
+                aTeam:"",
+                hTeamOdds:0,
+                aTeamOdds:0
+            };
+            gameStats.hTeam = (data[i].HomeTeamName);
+            gameStats.aTeam = (data[i].AwayTeamName);
+            gameStats.hTeamOdds = (data[i].PregameOdds["0"].HomeMoneyLine);
+            gameStats.aTeamOdds = (data[i].PregameOdds["0"].AwayMoneyLine);
+            gameStats.key = gameStats.aTeam+"|"+gameStats.hTeam;
+            wkGameOdds.push(gameStats);
         }
     })
 });
+
+console.log(wkGameOdds);
