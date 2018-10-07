@@ -34,7 +34,7 @@ btnLogin.on("click", function (e) {
         var auth = firebase.auth();
         if ($("#createAccount").is(":checked")) {
             //creates a new account with username and password
-            console.log("I checked box");
+            // console.log("I checked box");
             auth.createUserWithEmailAndPassword(email, pass).catch(function (error) {
                 // Handle Errors here.
                 var errorCode = error.code;
@@ -92,7 +92,7 @@ function display() {
 };
 
 
-// No logout button yet - hidden until signed in... - id has to be logoutBtn
+// Logout
 btnLogout.on("click", function (e) {
     e.preventDefault();
     firebase.auth().signOut();
@@ -103,7 +103,7 @@ btnLogout.on("click", function (e) {
 
 
 
-// Listen for change in authentication state
+// Listen for change in authentication state and change visibility accordingly
 auth.onAuthStateChanged(firebaseUser => {
     if (firebaseUser) {
         console.log(firebaseUser);
@@ -123,7 +123,7 @@ auth.onAuthStateChanged(firebaseUser => {
 
 
 
-// Calculate curWeek using moment
+// Calculate curWeek using "moment" library
 function getWeek(){
     var now = moment();
     console.log(now);
