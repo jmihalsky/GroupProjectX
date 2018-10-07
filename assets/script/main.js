@@ -10,7 +10,7 @@ firebase.initializeApp(config);
 var database = firebase.database();
 var auth = firebase.auth();
 var showData = false;
-
+var userID;
 
 $("#login").css("display", "block");
 $("#main").css("display", "none");
@@ -81,15 +81,18 @@ btnLogin.on("click", function (e) {
 });
 
 
+//displays data on screen...
 function display() {
     if (showdata == true) {
         $("#login").css("display", "none");
         $("#main").css("display", "block");
+
     } else {
         $("#login").css("display", "block");
         $("#main").css("display", "none");
     }
 };
+
 
 
 // No logout button yet - hidden until signed in... - id has to be logoutBtn
@@ -101,12 +104,12 @@ btnLogout.on("click", function (e) {
     $("#main").css("display", "none");
 })
 
-
-
 // Listen for change in authentication state
 auth.onAuthStateChanged(firebaseUser => {
     if (firebaseUser) {
         console.log(firebaseUser);
+        userID = firebaseUser.uid;
+        console.log(userID);
         $("#logoutBtn").css("display", "block");
         $("#login").css("display", "none");
         $("#main").css("display", "block");
@@ -116,17 +119,21 @@ auth.onAuthStateChanged(firebaseUser => {
         $("#login").css("display", "block");
         $("#main").css("display", "none");
     }
+
+    return userID;
 });
+
+
 
 console.log(firebase.auth());
 // startup();
 
 
 // Show last week's games and stats
-$(document).ready(function(){
+$(document).ready(function () {
     $('.multiple-items').slick({
-        infinite:true,
+        infinite: true,
         slidesToShow: 5,
-        slidesToScroll:3
+        slidesToScroll: 3
     });
 });
