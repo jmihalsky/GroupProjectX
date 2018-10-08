@@ -25,6 +25,7 @@ function new_user(){
                 week15total: 0,
                 week16total: 0,
                 week17total: 0,
+                season2018total: 0
             });
         }
     })
