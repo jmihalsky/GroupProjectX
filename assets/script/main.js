@@ -12,6 +12,10 @@ var auth = firebase.auth();
 var showData = false;
 var userID;
 
+const db = firebase.firestore();
+
+db.settings({timestampsInSnapshots: true}); 
+
 $("#login").css("display", "block");
 $("#main").css("display", "none");
 
