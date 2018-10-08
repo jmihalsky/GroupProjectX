@@ -10,7 +10,7 @@ firebase.initializeApp(config);
 var database = firebase.database();
 var auth = firebase.auth();
 var showData = false;
-
+var userID;
 
 $("#login").css("display", "block");
 $("#main").css("display", "none");
@@ -81,10 +81,12 @@ btnLogin.on("click", function (e) {
 });
 
 
+//displays data on screen...
 function display() {
     if (showdata == true) {
         $("#login").css("display", "none");
         $("#main").css("display", "block");
+
     } else {
         $("#login").css("display", "block");
         $("#main").css("display", "none");
@@ -92,7 +94,11 @@ function display() {
 };
 
 
+
 // Logout
+
+
+// No logout button yet - hidden until signed in... - id has to be logoutBtn
 btnLogout.on("click", function (e) {
     e.preventDefault();
     firebase.auth().signOut();
@@ -102,11 +108,13 @@ btnLogout.on("click", function (e) {
 })
 
 
+// Listen for change in authentication state
 
-// Listen for change in authentication state and change visibility accordingly
 auth.onAuthStateChanged(firebaseUser => {
     if (firebaseUser) {
         console.log(firebaseUser);
+        userID = firebaseUser.uid;
+        console.log(userID);
         $("#logoutBtn").css("display", "block");
         $("#login").css("display", "none");
         $("#main").css("display", "block");
@@ -116,7 +124,10 @@ auth.onAuthStateChanged(firebaseUser => {
         $("#login").css("display", "block");
         $("#main").css("display", "none");
     }
+
+    return userID;
 });
+
 
 // console.log(firebase.auth());
 // startup();
@@ -145,3 +156,19 @@ function getWeek(){
     if (now.isBetween("2018-12-25T00:00:01","2018-12-31T23:59:59")){ return 17}
 }
 curWeek = getWeek();
+
+
+
+console.log(firebase.auth());
+// startup();
+
+
+// Show last week's games and stats
+$(document).ready(function () {
+    $('.multiple-items').slick({
+        infinite: true,
+        slidesToShow: 5,
+        slidesToScroll: 3
+    });
+});
+
