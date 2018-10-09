@@ -72,13 +72,19 @@ $(function () {
 
             gameStats.hTeam = (data[i].HomeTeamName);
             gameStats.aTeam = (data[i].AwayTeamName);
-            gameStats.hTeamOdds = (data[i].PregameOdds["0"].HomeMoneyLine);
-            gameStats.aTeamOdds = (data[i].PregameOdds["0"].AwayMoneyLine);
-            wkGameOdds[gameStats.hTeam] = {
-                odds: gameStats.hTeamOdds
-            }
-            wkGameOdds[gameStats.aTeam] = {
-                odds: gameStats.aTeamOdds
+
+
+            if (data[i].PregameOdds["0"] === undefined) {
+                console.log("skipped");
+            } else {
+                gameStats.hTeamOdds = (data[i].PregameOdds["0"].HomeMoneyLine);
+                gameStats.aTeamOdds = (data[i].PregameOdds["0"].AwayMoneyLine);
+                wkGameOdds[gameStats.hTeam] = {
+                    odds: gameStats.hTeamOdds
+                }
+                wkGameOdds[gameStats.aTeam] = {
+                    odds: gameStats.aTeamOdds
+                }
             }
         }
         console.log(wkGameOdds);
