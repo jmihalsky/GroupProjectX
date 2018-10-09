@@ -1,12 +1,12 @@
-function new_user(){
-    db.collection("usr").doc(userID).get().then(function(doc) {
+function new_user(user_id){
+    db.collection("usr").doc(user_id).get().then(function(doc) {
         if(doc.exists) {
             console.log("User exists");
         }
         else
         {
-            db.collection("usr").doc(userID).set({
-                userid: userID,
+            db.collection("usr").doc(user_id).set({
+                userid: user_id,
                 username: "",
                 week01total: 0,
                 week02total: 0,
