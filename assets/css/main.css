@@ -2,8 +2,9 @@
     max-width: 400px;
     margin: auto;
 }
+
 .card {
-    margin: 20px;
+    margin: 30px;
     padding: 10px;
 }
 
@@ -15,7 +16,6 @@
     color: red;
     font-size: 18px;
     font-weight: bold;
-
 }
 
 #logoutBtn{
