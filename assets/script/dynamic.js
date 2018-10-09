@@ -90,6 +90,7 @@ function renderPicks(doc) {
     div.append(away);
     div.append(gameNames);
     div.append(records);
+
     if (curWeek == divEmpty) {
         div.append(odds);
     }
