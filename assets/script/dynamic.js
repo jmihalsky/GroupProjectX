@@ -5,11 +5,9 @@ db.collection("season2018").get().then((snapshot) => {
     })
 })
 
-
 //global vars
 var pickTeamsList = $("#pickTeams");
 var divEmpty;
-
 
 
 //create elements and render list with buttons
@@ -32,9 +30,7 @@ function renderList(doc) {
     div.append("<hr>");
 
     pickTeamsList.append(div);
-
 }
-
 
 //on PICK TEAMS button it will empty and display 
 $("#pickTeams").on("click", ".pickButton", function () {
@@ -181,42 +177,6 @@ $("#pickTeams").on("click", "#submit", function () {
 
 function submit_picks() {
     console.log("clicked sumbit button");
-    db.collection("season2018").doc(divEmpty).get().then(function (doc) {
-        if (doc.exists) {
-            var radio_arry = doc.data().games;
-            for (var i = 0; i < radio_arry.legnth; i++) {
-                var user_pick = $("input[name" + radio_arry[i] + "]:checked").attr("id");
-                db.collection("usr_picks").add({
-                    usrid: userID,
-                    week: divEmpty,
-                    game: radio_arry[i],
-                    usr_pick: user_pick,
-                    usr_points: 0
-                })
-            }
-            // if(doc.data().week_status == "closed")
-            // {
-            //     console.log("closed");
-            // }
-            // else
-            // {
-            //     var radio_arry = doc.data().games;
-            //     for(var i = 0; i < radio_arry.legnth; i++)
-            //     {
-            //         var user_pick = $("input[name" + radio_arry[i] + "]:checked").attr("id");
-            //         db.collection("usr_picks").add({
-            //             usrid: userID,
-            //             week: divEmpty,
-            //             game: radio_arry[i],
-            //             usr_pick: user_pick,
-            //             usr_points: 0
-            //         })
-            //     }
-            // }
-        }
-        else {
-            console.log("document does not exist");
-        }
-    });
+
 }
 
