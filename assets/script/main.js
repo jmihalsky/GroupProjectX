@@ -99,12 +99,7 @@ function display() {
     }
 };
 
-
-
-// Logout
-
-
-// No logout button yet - hidden until signed in... - id has to be logoutBtn
+// Logout Button
 btnLogout.on("click", function (e) {
     e.preventDefault();
     firebase.auth().signOut();
@@ -164,18 +159,6 @@ function getWeek() {
 }
 curWeek = getWeek();
 
-
-
 console.log(firebase.auth());
 // startup();
-
-
-// Show last week's games and stats
-$(document).ready(function () {
-    $('.multiple-items').slick({
-        infinite: true,
-        slidesToShow: 5,
-        slidesToScroll: 3
-    });
-});
 
