@@ -7,7 +7,7 @@ const config = {
     messagingSenderId: "555051450877"
 };
 firebase.initializeApp(config);
-var database = firebase.database();
+// var database = firebase.database();
 var auth = firebase.auth();
 var showData = false;
 var userID;
@@ -57,7 +57,7 @@ btnLogin.on("click", function (e) {
                 }
                 return showData;
                 display();
-                console.log(error);
+                console.log("A");
                 // [END_EXCLUDE]
             });
             // [END authwithemail]
@@ -75,10 +75,11 @@ btnLogin.on("click", function (e) {
                 } else {
                     $(errorSection).empty();
                     showData = true;
+                    new_user(firebaseUser.uid);
                 }
                 return showData;
                 display();
-                console.log(error);
+                console.log("B");
             });
         }
     }
@@ -90,6 +91,7 @@ function display() {
     if (showdata == true) {
         $("#login").css("display", "none");
         $("#main").css("display", "block");
+       console.log("message");
 
     } else {
         $("#login").css("display", "block");
@@ -118,6 +120,7 @@ auth.onAuthStateChanged(firebaseUser => {
     if (firebaseUser) {
         console.log(firebaseUser);
         userID = firebaseUser.uid;
+        new_user(firebaseUser.uid);
         console.log(userID);
         $("#logoutBtn").css("display", "block");
         $("#login").css("display", "none");
