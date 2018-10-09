@@ -149,6 +149,8 @@ function addButton() {
 }
 
 $(document.body).on("click", "button", "." + divEmpty, function () {
+    console.log("testing");
+    submit_picks();
     $("." + divEmpty).empty();
 
     var div = $("." + divEmpty);
@@ -168,3 +170,45 @@ $(document.body).on("click", "button", "." + divEmpty, function () {
     div.append("<hr>");
 });
 
+function submit_picks() {
+    db.collection("season2018").doc(divEmpty).get().then(function(doc) {
+        if(doc.exists) 
+        {
+            var radio_arry = doc.data().games;
+                for(var i = 0; i < radio_arry.length; i++)
+                {
+                    var user_pick = $("input[name=" + radio_arry[i] + "]:checked").attr("id");
+                    db.collection("usr_picks").add({
+                        usrid: userID,
+                        week: divEmpty,
+                        game: radio_arry[i],
+                        usr_pick: user_pick,
+                        usr_points: 0
+                    })
+                }
+            // if(doc.data().week_status == "closed")
+            // {
+            //     console.log("closed");
+            // }
+            // else
+            // {
+            //     var radio_arry = doc.data().games;
+            //     for(var i = 0; i < radio_arry.legnth; i++)
+            //     {
+            //         var user_pick = $("input[name" + radio_arry[i] + "]:checked").attr("id");
+            //         db.collection("usr_picks").add({
+            //             usrid: userID,
+            //             week: divEmpty,
+            //             game: radio_arry[i],
+            //             usr_pick: user_pick,
+            //             usr_points: 0
+            //         })
+            //     }
+            // }
+        }
+        else
+        {
+            console.log("document does not exist");
+        }
+    });
+}
