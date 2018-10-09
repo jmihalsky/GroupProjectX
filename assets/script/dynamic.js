@@ -82,6 +82,8 @@ function renderPicks(doc) {
     div.attr("class", "newSection");
     records.html("Record: " + hAbv + "   |   Record: " + aAbv);
 
+    var usr_picks = $("<div>");
+    usr_picks.addClass("game" + doc.game_number + "pick");
 
 
 
