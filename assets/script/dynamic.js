@@ -71,10 +71,10 @@ function renderPicks(doc) {
     home.attr("id", doc.game_home_alias);
     away.attr("id", doc.game_away_alias);
 
-    titlep.html("<strong>GAME #" + title + "</strong>")
-    gameNames.html(awayName + " <em>VS</em> " + homeName);
+    titlep.html("<h2>GAME #" + title + "</h2>")
+    gameNames.html("<h3>" + awayName + " <em>VS</em> " + homeName + "</h3>");
     div.attr("class", "newSection");
-    records.html("Record: " + aAbv + "   |   Record: " + hAbv);
+    records.html("<h4> Record: " + aAbv + "   |   Record: " + hAbv + "</h4>");
 
     // add radio buttons for user to pick winning team
     var usr_picks = $("<div>");
@@ -87,7 +87,7 @@ function renderPicks(doc) {
 
     var pck_lbl_a = $("<label>");
     pck_lbl_a.attr("for", doc.game_number);
-    pck_lbl_a.html(doc.game_away_name);
+    pck_lbl_a.html("<h4>" + doc.game_away_name + "</h4>");
 
     var pck_in_b = $("<input>");
     pck_in_b.attr("type", "radio");
@@ -96,15 +96,17 @@ function renderPicks(doc) {
 
     var pck_lbl_b = $("<label>");
     pck_lbl_b.attr("for", doc.game_number);
-    pck_lbl_b.html(doc.game_home_name);
-
+    pck_lbl_b.html("<h4>" + doc.game_home_name + "</h4>");
     usr_picks.append(pck_in_a, pck_lbl_a, pck_in_b, pck_lbl_b);
 
+
+    //start display
     div.append(titlep);
     div.append(away);
     div.append(home);
     div.append(gameNames);
     div.append(records);
+
 
     //add odds
     var week = divEmpty;
@@ -132,23 +134,20 @@ function renderPicks(doc) {
 
         if ((wkGameOdds[doc.game_home_alias] == undefined) || (wkGameOdds[doc.game_away_alias] === undefined)) {
             var odds = $("<p>");
-            odds.html("No Odds");
+            odds.html("<h4>No Odds</h4>");
             div.append(odds);
         } else {
             var hOdds = wkGameOdds[doc.game_home_alias].odds;
             var aOdds = wkGameOdds[doc.game_away_alias].odds;
 
             var odds = $("<p>");
-            odds.html("Odds: " + hOdds + "   |   Odds: " + aOdds);
+            odds.html("<h4> Odds: " + hOdds + "   |   Odds: " + aOdds + "</h4>");
             div.append(odds);
         }
 
     }
 
     div.append(usr_picks);
-
-
-
     $("." + divEmpty).append(div);
 }
 
