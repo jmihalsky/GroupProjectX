@@ -52,6 +52,7 @@ $(function () {
         type: "GET",
         data: "{body}",
     }).done(function (data) {
+        console.log(data);
         for (var i = 0; i < data.length; i++) {
             var gameStats = {
                 hTeam: "",
