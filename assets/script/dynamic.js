@@ -64,6 +64,9 @@ function renderPicks(doc) {
     var hAbv = teamRecord[doc.game_home_alias].record;
     var aAbv = teamRecord[doc.game_away_alias].record;
     var records = $("<p>");
+    var hOdds = wkGameOdds[doc.game_home_alias].odds
+    var aOdds = wkGameOdds[doc.game_away_alias].odds
+    var odds = $("<p>");
 
 
     home.attr("class", doc.game_number);
@@ -75,6 +78,7 @@ function renderPicks(doc) {
     gameNames.html(homeName + " <em>VS</em> " + awayName);
     div.attr("class", "newSection");
     records.html("Record: " + hAbv + "   |   Record: " + aAbv);
+    odds.html("Odds: " + hOdds + "   |   Odds: " + aOdds);
 
 
     div.append(titlep);
@@ -82,6 +86,7 @@ function renderPicks(doc) {
     div.append(away);
     div.append(gameNames);
     div.append(records);
+    div.append(odds);
 
 
     $("." + divEmpty).append(div);
