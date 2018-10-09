@@ -153,6 +153,7 @@ function addButton() {
     button.attr("class", divEmpty);
     button.attr("id", "submit");
     $("." + divEmpty).append(button);
+    $("." + divEmpty).css("margin-bottom", "70px");
 }
 
 $(document.body).on("click", "button", "." + divEmpty, function () {
