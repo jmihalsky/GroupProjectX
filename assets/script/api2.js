@@ -25,8 +25,7 @@ $(function () {
             };
             if (data[i].Team === "JAX") { data[i].Team = "JAC" };
             if (data[i].Team === "LAR") { data[i].Team = "LA" };
-            if (data[i].HomeTeamName === "LAR") { data[i].HomeTeamName = "LA" };
-            if (data[i].AwayTeamName === "JAX") { data[i].AwayTeamName = "JAC" };
+
             tmRecord.team = (data[i].Team);
             var wins = (data[i].Wins).toString();
             var losses = (data[i].Losses).toString();
@@ -64,10 +63,11 @@ $(function () {
             if (data[i].AwayTeamName === "LAR") { data[i].AwayTeamName = "LA" };
             if (data[i].HomeTeamName === "LAR") { data[i].HomeTeamName = "LA" };
             if (data[i].AwayTeamName === "JAX") { data[i].AwayTeamName = "JAC" };
+
             gameStats.hTeam = (data[i].HomeTeamName);
             gameStats.aTeam = (data[i].AwayTeamName);
-            // var hOdds = data[i].PregameOdds["0"].HomeMoneyLine;
-            // var aOdds = data[i].PregameOdds["0"].AwayMoneyLine;
+            gameStats.hTeamOdds = (data[i].PregameOdds["0"].HomeMoneyLine);
+            gameStats.aTeamOdds = (data[i].PregameOdds["0"].AwayMoneyLine);
             wkGameOdds[gameStats.hTeam] = {
                 odds: gameStats.hTeamOdds
             }
@@ -78,4 +78,3 @@ $(function () {
         console.log(wkGameOdds);
     })
 });
-
