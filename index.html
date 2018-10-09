@@ -22,6 +22,7 @@
         <div class="container">
             <h1 class="display-4"><strong>The Catch</strong></h1>
             <button type="submit" id="logoutBtn" class="btn btn-primary">Log Out</button>
+            <p>Logged in as </p>
         </div>
     </div>
 
@@ -61,16 +62,38 @@
             <div class="col-sm-6">
                 <div class="card">
                     <div class="card-body scores">
-                        <h5 class="card-title">YOUR WEEKLY BREAKDOWN</h5>
-                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                        <h5 class="card-header">YOUR WEEKLY BREAKDOWN</h5>
+                        <table id="tableYour">
+                            <tr>
+                                <th>Week</th>
+                                <th>Correct Picks</th>
+                                <th>Incorrect Picks</th>
+                                <th>Points</th>
+                            </tr>
+                            <tr>
+                                <td>Week 1</td>
+                                <td>DD</td>
+                                <td>DD</td>
+                                <td>No</td>                              
+                            </tr>
+                        </table>
                     </div>
                 </div>
                 <div class="card">
                     <div class="card-body scores">
-                        <h5 class="card-title">LEADER BOARD</h5>
-                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                        <h5 class="card-header">LEADER BOARD</h5>
+                        <table id="tableLeaders">
+                            <tr>
+                                <th>Name</th>
+                                <th>Points</th>
+                                <th>Rank</th>
+                            </tr>
+                            <tr>
+                                <td>FBHead</td>
+                                <td>145</td>
+                                <td>1</td>                              
+                            </tr>
+                        </table>
                     </div>
                 </div>
             </div>
