@@ -7,10 +7,14 @@ const config = {
     messagingSenderId: "555051450877"
 };
 firebase.initializeApp(config);
-var database = firebase.database();
+// var database = firebase.database();
 var auth = firebase.auth();
 var showData = false;
 var userID;
+
+const db = firebase.firestore();
+
+db.settings({ timestampsInSnapshots: true });
 
 $("#login").css("display", "block");
 $("#main").css("display", "none");
@@ -53,12 +57,12 @@ btnLogin.on("click", function (e) {
                 }
                 return showData;
                 display();
-                console.log(error);
+                console.log("A");
                 // [END_EXCLUDE]
             });
             // [END authwithemail]
         } else {
-            console.log("i did not check box");
+            //console.log("i did not check box");
             //logs in with existing user
             auth.signInWithEmailAndPassword(email, pass).catch(function (error) {
                 var errorCode = error.code;
@@ -71,10 +75,11 @@ btnLogin.on("click", function (e) {
                 } else {
                     $(errorSection).empty();
                     showData = true;
+                    new_user(firebaseUser.uid);
                 }
                 return showData;
                 display();
-                console.log(error);
+                console.log("B");
             });
         }
     }
@@ -86,6 +91,7 @@ function display() {
     if (showdata == true) {
         $("#login").css("display", "none");
         $("#main").css("display", "block");
+       console.log("message");
 
     } else {
         $("#login").css("display", "block");
@@ -109,6 +115,7 @@ auth.onAuthStateChanged(firebaseUser => {
     if (firebaseUser) {
         console.log(firebaseUser);
         userID = firebaseUser.uid;
+        new_user(firebaseUser.uid);
         console.log(userID);
         $("#logoutBtn").css("display", "block");
         $("#login").css("display", "none");
@@ -130,25 +137,25 @@ auth.onAuthStateChanged(firebaseUser => {
 
 
 // Calculate curWeek using "moment" library
-function getWeek(){
+function getWeek() {
     var now = moment();
-    if (now.isBetween("2018-09-04T00:00:01","2018-09-10T23:59:59")){ return 1};
-    if (now.isBetween("2018-09-11T00:00:01","2018-09-17T23:59:59")){ return 2}
-    if (now.isBetween("2018-09-18T00:00:01","2018-09-24T23:59:59")){ return 3}
-    if (now.isBetween("2018-09-25T00:00:01","2018-10-01T23:59:59")){ return 4}
-    if (now.isBetween("2018-10-02T00:00:01","2018-10-08T23:59:59")){ return 5}
-    if (now.isBetween("2018-10-09T00:00:01","2018-10-15T23:59:59")){ return 6}
-    if (now.isBetween("2018-10-16T00:00:01","2018-10-22T23:59:59")){ return 7}
-    if (now.isBetween("2018-10-23T00:00:01","2018-10-29T23:59:59")){ return 8}
-    if (now.isBetween("2018-10-30T00:00:01","2018-11-05T23:59:59")){ return 9}
-    if (now.isBetween("2018-11-06T00:00:01","2018-11-12T23:59:59")){ return 10}
-    if (now.isBetween("2018-11-13T00:00:01","2018-11-19T23:59:59")){ return 11}
-    if (now.isBetween("2018-11-20T00:00:01","2018-11-26T23:59:59")){ return 12}
-    if (now.isBetween("2018-11-27T00:00:01","2018-12-03T23:59:59")){ return 13}
-    if (now.isBetween("2018-12-04T00:00:01","2018-12-10T23:59:59")){ return 14}
-    if (now.isBetween("2018-12-11T00:00:01","2018-12-17T23:59:59")){ return 15}
-    if (now.isBetween("2018-12-18T00:00:01","2018-12-24T23:59:59")){ return 16}
-    if (now.isBetween("2018-12-25T00:00:01","2018-12-31T23:59:59")){ return 17}
+    if (now.isBetween("2018-09-04T00:00:01", "2018-09-10T23:59:59")) { return 1 };
+    if (now.isBetween("2018-09-11T00:00:01", "2018-09-17T23:59:59")) { return 2 }
+    if (now.isBetween("2018-09-18T00:00:01", "2018-09-24T23:59:59")) { return 3 }
+    if (now.isBetween("2018-09-25T00:00:01", "2018-10-01T23:59:59")) { return 4 }
+    if (now.isBetween("2018-10-02T00:00:01", "2018-10-08T23:59:59")) { return 5 }
+    if (now.isBetween("2018-10-09T00:00:01", "2018-10-15T23:59:59")) { return 6 }
+    if (now.isBetween("2018-10-16T00:00:01", "2018-10-22T23:59:59")) { return 7 }
+    if (now.isBetween("2018-10-23T00:00:01", "2018-10-29T23:59:59")) { return 8 }
+    if (now.isBetween("2018-10-30T00:00:01", "2018-11-05T23:59:59")) { return 9 }
+    if (now.isBetween("2018-11-06T00:00:01", "2018-11-12T23:59:59")) { return 10 }
+    if (now.isBetween("2018-11-13T00:00:01", "2018-11-19T23:59:59")) { return 11 }
+    if (now.isBetween("2018-11-20T00:00:01", "2018-11-26T23:59:59")) { return 12 }
+    if (now.isBetween("2018-11-27T00:00:01", "2018-12-03T23:59:59")) { return 13 }
+    if (now.isBetween("2018-12-04T00:00:01", "2018-12-10T23:59:59")) { return 14 }
+    if (now.isBetween("2018-12-11T00:00:01", "2018-12-17T23:59:59")) { return 15 }
+    if (now.isBetween("2018-12-18T00:00:01", "2018-12-24T23:59:59")) { return 16 }
+    if (now.isBetween("2018-12-25T00:00:01", "2018-12-31T23:59:59")) { return 17 }
 }
 curWeek = getWeek();
 
