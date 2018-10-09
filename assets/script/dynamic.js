@@ -53,6 +53,7 @@ $(document.body).on("click", ".pickButton", function () {
 
 
 function renderPicks(doc) {
+    var week = divEmpty;
     var div = $("<div>");
     var titlep = $("<p>");
     var title = doc.game_number;
@@ -65,12 +66,6 @@ function renderPicks(doc) {
     var aAbv = teamRecord[doc.game_away_alias].record;
     var records = $("<p>");
 
-    if (curWeek == divEmpty) {
-        var hOdds = wkGameOdds[doc.game_home_alias].odds;
-        var aOdds = wkGameOdds[doc.game_away_alias].odds;
-        var odds = $("<p>");
-        odds.html("Odds: " + hOdds + "   |   Odds: " + aOdds);
-    }
 
     home.attr("class", doc.game_number);
     away.attr("class", doc.game_number);
@@ -82,18 +77,39 @@ function renderPicks(doc) {
     div.attr("class", "newSection");
     records.html("Record: " + hAbv + "   |   Record: " + aAbv);
 
-
-
-
     div.append(titlep);
     div.append(home);
     div.append(away);
     div.append(gameNames);
     div.append(records);
 
-    if (curWeek == divEmpty) {
+    if (week === "week01") { week = 1 };
+    if (week === "week02") { week = 2 };
+    if (week === "week03") { week = 3 };
+    if (week === "week04") { week = 4 };
+    if (week === "week05") { week = 5 };
+    if (week === "week06") { week = 6 };
+    if (week === "week07") { week = 7 };
+    if (week === "week08") { week = 8 };
+    if (week === "week09") { week = 9 };
+    if (week === "week10") { week = 10 };
+    if (week === "week11") { week = 11 };
+    if (week === "week12") { week = 12 };
+    if (week === "week13") { week = 13 };
+    if (week === "week14") { week = 14 };
+    if (week === "week15") { week = 15 };
+    if (week === "week16") { week = 16 };
+    if (week === "week17") { week = 17 };
+
+
+    if (curWeek == week) {
+        var hOdds = wkGameOdds[doc.game_home_alias].odds;
+        var aOdds = wkGameOdds[doc.game_away_alias].odds;
+        var odds = $("<p>");
+        odds.html("Odds: " + hOdds + "   |   Odds: " + aOdds);
         div.append(odds);
     }
+
 
     $("." + divEmpty).append(div);
 }
