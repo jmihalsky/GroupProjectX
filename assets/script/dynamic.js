@@ -164,6 +164,8 @@ $(document.body).on("click", "button", "." + divEmpty, function () {
     console.log("testing");
     submit_picks();
     $("." + divEmpty).empty();
+    $("." + divEmpty).css("margin-bottom", "0px");
+
     var div = $("." + divEmpty);
     var name = $("<span>");
     var button = $("<button>");
