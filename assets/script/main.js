@@ -91,7 +91,7 @@ function display() {
     if (showdata == true) {
         $("#login").css("display", "none");
         $("#main").css("display", "block");
-       console.log("message");
+        console.log("message");
 
     } else {
         $("#login").css("display", "block");
@@ -158,6 +158,8 @@ function getWeek() {
     if (now.isBetween("2018-12-25T00:00:01", "2018-12-31T23:59:59")) { return 17 }
 }
 curWeek = getWeek();
+
+
 
 console.log(firebase.auth());
 // startup();
