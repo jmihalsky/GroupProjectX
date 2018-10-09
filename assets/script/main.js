@@ -91,7 +91,7 @@ function display() {
     if (showdata == true) {
         $("#login").css("display", "none");
         $("#main").css("display", "block");
-       console.log("message");
+        console.log("message");
 
     } else {
         $("#login").css("display", "block");
@@ -139,23 +139,23 @@ auth.onAuthStateChanged(firebaseUser => {
 // Calculate curWeek using "moment" library
 function getWeek() {
     var now = moment();
-    if (now.isBetween("2018-09-04T00:00:01", "2018-09-10T23:59:59")) { return 1 };
-    if (now.isBetween("2018-09-11T00:00:01", "2018-09-17T23:59:59")) { return 2 }
-    if (now.isBetween("2018-09-18T00:00:01", "2018-09-24T23:59:59")) { return 3 }
-    if (now.isBetween("2018-09-25T00:00:01", "2018-10-01T23:59:59")) { return 4 }
-    if (now.isBetween("2018-10-02T00:00:01", "2018-10-08T23:59:59")) { return 5 }
-    if (now.isBetween("2018-10-09T00:00:01", "2018-10-15T23:59:59")) { return 6 }
-    if (now.isBetween("2018-10-16T00:00:01", "2018-10-22T23:59:59")) { return 7 }
-    if (now.isBetween("2018-10-23T00:00:01", "2018-10-29T23:59:59")) { return 8 }
-    if (now.isBetween("2018-10-30T00:00:01", "2018-11-05T23:59:59")) { return 9 }
-    if (now.isBetween("2018-11-06T00:00:01", "2018-11-12T23:59:59")) { return 10 }
-    if (now.isBetween("2018-11-13T00:00:01", "2018-11-19T23:59:59")) { return 11 }
-    if (now.isBetween("2018-11-20T00:00:01", "2018-11-26T23:59:59")) { return 12 }
-    if (now.isBetween("2018-11-27T00:00:01", "2018-12-03T23:59:59")) { return 13 }
-    if (now.isBetween("2018-12-04T00:00:01", "2018-12-10T23:59:59")) { return 14 }
-    if (now.isBetween("2018-12-11T00:00:01", "2018-12-17T23:59:59")) { return 15 }
-    if (now.isBetween("2018-12-18T00:00:01", "2018-12-24T23:59:59")) { return 16 }
-    if (now.isBetween("2018-12-25T00:00:01", "2018-12-31T23:59:59")) { return 17 }
+    if (now.isBetween("2018-09-04T00:00:01", "2018-09-10T23:59:59")) { return "week01" };
+    if (now.isBetween("2018-09-11T00:00:01", "2018-09-17T23:59:59")) { return "week02" }
+    if (now.isBetween("2018-09-18T00:00:01", "2018-09-24T23:59:59")) { return "week03" }
+    if (now.isBetween("2018-09-25T00:00:01", "2018-10-01T23:59:59")) { return "week04" }
+    if (now.isBetween("2018-10-02T00:00:01", "2018-10-08T23:59:59")) { return "week05" }
+    if (now.isBetween("2018-10-09T00:00:01", "2018-10-15T23:59:59")) { return "week06" }
+    if (now.isBetween("2018-10-16T00:00:01", "2018-10-22T23:59:59")) { return "week07" }
+    if (now.isBetween("2018-10-23T00:00:01", "2018-10-29T23:59:59")) { return "week08" }
+    if (now.isBetween("2018-10-30T00:00:01", "2018-11-05T23:59:59")) { return "week09" }
+    if (now.isBetween("2018-11-06T00:00:01", "2018-11-12T23:59:59")) { return "week10" }
+    if (now.isBetween("2018-11-13T00:00:01", "2018-11-19T23:59:59")) { return "week11" }
+    if (now.isBetween("2018-11-20T00:00:01", "2018-11-26T23:59:59")) { return "week12" }
+    if (now.isBetween("2018-11-27T00:00:01", "2018-12-03T23:59:59")) { return "week13" }
+    if (now.isBetween("2018-12-04T00:00:01", "2018-12-10T23:59:59")) { return "week14" }
+    if (now.isBetween("2018-12-11T00:00:01", "2018-12-17T23:59:59")) { return "week15" }
+    if (now.isBetween("2018-12-18T00:00:01", "2018-12-24T23:59:59")) { return "week16" }
+    if (now.isBetween("2018-12-25T00:00:01", "2018-12-31T23:59:59")) { return "week17" }
 }
 curWeek = getWeek();
 
