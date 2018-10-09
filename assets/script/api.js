@@ -16,56 +16,64 @@ var format = "json";
 
 var full_api_string = "";
 
-var api_reponse = [];
-
-
-function api_assembler(){
-    full_api_string = base_url + acces_level + "/" + api_ver +"/" + lang + "/games/" + year + "/" + season + "/schedule." + format + "?api_key=" + api_key;
-}
-
-function api_test(){
-$.ajax({
-    url: full_api_string,
-    method: "GET",
-    headers: {
-        'Access-Control-Allow-Origin' : '*',
-        'AcceAccess-Control-Allow-Methods': 'GET, POST, PATCH, PUT, DELETE, OPTIONS',
-        'Access-Control-Allow-Headers': 'Origin, Content-Type, X-Auth-Token'
-    }
-})
-.then(function(response){
-    console.log(response); 
-    // event.preventDefault();
-
-    var usrname = "test@gmail.com";
-    
-    var usr = db.ref().child("usrs").push({
-        usr_usrname: usrname
-    });
-
-    for (var i = 0; i < response.weeks.length; i++)
-    {
-        var weeks = usr.child("week" + response.weeks[i].sequence).push({
-            week: response.weeks[i].sequence
-        });
-
-        for(var x = 0; x < response.weeks[i].games.length; x++)
-        {
-            var games = weeks.child("game" + response.weeks[i].games[x].number).push({
-                game_number: response.weeks[i].games[x].number,
-                game_away_team: response.weeks[i].games[x].away.name,
-                game_home_team: response.weeks[i].games[x].home.name
-            });
-        }
-    }
-
-    });
+var weekly_scores = {
+    game_week: "",
+    game_num: []
 };
 
+var usr_token = "is1gD2ofCig383rgT4CdFEscOKs2";
 
-function api_all(){
-    api_assembler();
-    api_test();
+function api_score_assembler(){
+    full_api_string = base_url + acces_level + "/" + api_ver + "/" + lang + "/games/" + year + "/" + season + "/" + week_num + "/schedule." + format + "?api_key=" + api_key;
+    console.log(full_api_string);
 }
 
-api_all();
+
+
+function api_wky_scores(){
+    $.ajax({
+        url: full_api_string,
+        method: "GET",
+        headers: {
+            'Access-Control-Allow-Origin' : '*',
+            'AcceAccess-Control-Allow-Methods': 'GET, POST, PATCH, PUT, DELETE, OPTIONS',
+            'Access-Control-Allow-Headers': 'Origin, Content-Type, X-Auth-Token'
+
+        }
+    })
+    .then(function(response){
+        console.log(response);
+        weekly_scores.game_week = "week" + response.week.sequence;
+
+        for(var i = 0; i < response.week.games.length; i++)
+        {
+            weekly_scores.game_num.push("game" + response.week.games[i].number);
+
+            var game_wn = "";
+
+            if (response.week.games[i].scoring.away_points == response.week.games[i].scoring.home_points)
+            {
+                game_wn = "T";
+            }
+            else if (response.week.games[i].scoring.away_points > response.week.games[i].scoring.home_points)
+            {
+                game_wn = response.week.games[i].away.alias;
+            }
+            else
+            {
+                game_wn = response.week.games[i].home.alias;
+            }
+
+            var game_no = "game" + response.week.games[i].number;
+            weekly_scores[game_no] = {};
+            weekly_scores[game_no]["game_number"] = response.week.games[i].number;
+            weekly_scores[game_no]["game_away_alias"] = response.week.games[i].away.alias;
+            weekly_scores[game_no]["game_away_score"] = response.week.games[i].scoring.away_points;
+            weekly_scores[game_no]["game_home_alias"] = response.week.games[i].home.alias;
+            weekly_scores[game_no]["game_home_score"] = response.week.games[i].scoring.home_points;
+            weekly_scores[game_no]["winner"] = game_wn;
+        }
+
+        console.log(weekly_scores);
+    });
+};
