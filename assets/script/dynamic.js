@@ -53,7 +53,6 @@ $(document.body).on("click", ".pickButton", function () {
 
 
 function renderPicks(doc) {
-    var week = divEmpty;
     var div = $("<div>");
     var titlep = $("<p>");
     var title = doc.game_number;
@@ -107,6 +106,9 @@ function renderPicks(doc) {
     div.append(gameNames);
     div.append(records);
 
+    //add odds
+    var week = divEmpty;
+
     if (week === "week01") { week = 1 };
     if (week === "week02") { week = 2 };
     if (week === "week03") { week = 3 };
@@ -127,11 +129,20 @@ function renderPicks(doc) {
 
 
     if (curWeek == week) {
-        var hOdds = wkGameOdds[doc.game_home_alias].odds;
-        var aOdds = wkGameOdds[doc.game_away_alias].odds;
-        var odds = $("<p>");
-        odds.html("Odds: " + hOdds + "   |   Odds: " + aOdds);
-        div.append(odds);
+
+        if ((wkGameOdds[doc.game_home_alias] == undefined) || (wkGameOdds[doc.game_away_alias] === undefined)) {
+            var odds = $("<p>");
+            odds.html("No Odds");
+            div.append(odds);
+        } else {
+            var hOdds = wkGameOdds[doc.game_home_alias].odds;
+            var aOdds = wkGameOdds[doc.game_away_alias].odds;
+
+            var odds = $("<p>");
+            odds.html("Odds: " + hOdds + "   |   Odds: " + aOdds);
+            div.append(odds);
+        }
+
     }
 
     div.append(usr_picks);
