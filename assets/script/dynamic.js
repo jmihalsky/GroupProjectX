@@ -177,6 +177,5 @@ $("#pickTeams").on("click", "#submit", function () {
 
 function submit_picks() {
     console.log("clicked sumbit button");
-
 }
 
