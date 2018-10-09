@@ -17,16 +17,7 @@
     font-weight: bold;
 
 }
-.header{
-    background-image: url("../images/header.jpg");
-    height: 200px;
-    background-size: cover;
-}
 
-
-.nav{
-    background-color: black;
-}
 #logoutBtn{
     float: right;
 }
