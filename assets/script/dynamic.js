@@ -37,7 +37,7 @@ function renderList(doc) {
 
 
 //on PICK TEAMS button it will empty and display 
-$(document.body).on("click", ".pickButton", function () {
+$("#pickTeams").on("click", ".pickButton", function () {
     var weekDoc = $(this).attr("id");
 
     db.collection("season2018").doc(weekDoc).collection(weekDoc).get().then((snapshot) => {
@@ -155,26 +155,68 @@ function renderPicks(doc) {
 function addButton() {
     var button = $("<button>").text("Submit Picks");
     button.attr("class", divEmpty);
+    button.attr("id", "submit");
     $("." + divEmpty).append(button);
 }
 
-$(document.body).on("click", "button", "." + divEmpty, function () {
+$("#pickTeams").on("click", "#submit", function () {
+    submit_picks();
     $("." + divEmpty).empty();
-
     var div = $("." + divEmpty);
     var name = $("<span>");
     var button = $("<button>");
 
     div.attr("class", divEmpty);
-
     button.attr("class", "pickButton");
     button.attr("id", divEmpty);
     button.text("Make your picks!")
-
     name.text(divEmpty);
 
     div.append(name);
     div.append(button);
     div.append("<hr>");
+
 });
+
+
+function submit_picks() {
+    console.log("clicked sumbit button");
+    db.collection("season2018").doc(divEmpty).get().then(function (doc) {
+        if (doc.exists) {
+            var radio_arry = doc.data().games;
+            for (var i = 0; i < radio_arry.legnth; i++) {
+                var user_pick = $("input[name" + radio_arry[i] + "]:checked").attr("id");
+                db.collection("usr_picks").add({
+                    usrid: userID,
+                    week: divEmpty,
+                    game: radio_arry[i],
+                    usr_pick: user_pick,
+                    usr_points: 0
+                })
+            }
+            // if(doc.data().week_status == "closed")
+            // {
+            //     console.log("closed");
+            // }
+            // else
+            // {
+            //     var radio_arry = doc.data().games;
+            //     for(var i = 0; i < radio_arry.legnth; i++)
+            //     {
+            //         var user_pick = $("input[name" + radio_arry[i] + "]:checked").attr("id");
+            //         db.collection("usr_picks").add({
+            //             usrid: userID,
+            //             week: divEmpty,
+            //             game: radio_arry[i],
+            //             usr_pick: user_pick,
+            //             usr_points: 0
+            //         })
+            //     }
+            // }
+        }
+        else {
+            console.log("document does not exist");
+        }
+    });
+}
 
