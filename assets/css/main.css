@@ -2,7 +2,10 @@
     max-width: 400px;
     margin: auto;
 }
-
+.card {
+    margin: 20px;
+    padding: 10px;
+}
 
 .slides{
     display:inline;
@@ -17,4 +20,24 @@
 
 #logoutBtn{
     float: right;
+}
+
+.btn {
+    margin-left: 100px;
+}
+
+
+.pickButtonSection{
+    margin: 10px;
+    display: flex;
+    padding: 10px;
+    
+  }
+
+div {
+    padding: 5px;
+}
+
+button {
+    margin: 20px;
 }
