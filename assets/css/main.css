@@ -69,15 +69,16 @@ h1{
     min-height: 250px;
 }
 
-#table{
+table{
     text-align: center;
+    vertical-align: middle;
     max-height:500px;
-    width: 100%;
-    min-height: 250px;
+    width:100%;
 }
 
 body{
     background-color:rgb(203, 214, 203);
+    background:url(../images/turf.jpg);
 }
 
 .card{
@@ -87,3 +88,43 @@ body{
 .jumbotron, .jumbotron-fluid{
     background-color: rgb(91, 91, 91);
 }
+
+table, th, tr{
+    border: 1px solid black;
+}
+
+th,td{
+    padding:10px;
+}
+
+tr:nth-child(odd) {background-color:  rgb(186, 191, 196)}
+
+h5{
+    font-weight: bold;
+    font-family: 'Graduate', cursive;
+}
+
+h2 {
+    font-size: 16px;
+}
+ 
+h3 {
+    font-size: 14px;
+}
+ 
+h4 {
+    font-size: 12px;
+}
+ 
+label {
+    margin: 5px;
+}
+ 
+#submit {
+    background-color: rgb(44, 90, 44);
+    color: whitesmoke;
+    float:left;
+    border-radius: 5px;
+    opacity:0.7;
+ }
+
