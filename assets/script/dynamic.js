@@ -1,4 +1,5 @@
 var radio_arry = [];
+var game_var = "";
 
 db.collection("season2018").get().then((snapshot) => {
     snapshot.docs.forEach(doc => {
@@ -206,13 +207,37 @@ function submit_picks() {
     for (var i = 0; i < radio_arry.length; i++)
     {
         var usr_pcks = $("input[name=" + radio_arry[i] + "]:checked").attr("id");
-        db.collection("usr_picks").add({
+        game_var = radio_arry[i];
+
+        doc_key = userID + divEmpty + game_var;
+        console.log(doc_key);
+        
+        db.collection("usr_picks").doc(doc_key).set({
             userid: userID,
             week: divEmpty,
-            game: radio_arry[i],
+            game: game_var,
             user_pick: usr_pcks,
             user_points: 0
-        })
+        });
+        
+        // db.collection("usr_picks").doc(doc_key).get().then(function(doc) {
+        //     if (doc.exists)
+        //     {
+        //         console.log("doc exists");
+        //     }
+        //     else
+        //     {
+        //         console.log("create new doc");
+        //         db.collection("usr_picks").doc(doc_key).set({
+        //             userid: userID,
+        //             week: divEmpty,
+        //             game: game_var,
+        //             user_pick: usr_pcks,
+        //             user_points: 0
+        //         });
+        //     }
+        // })
+        
     }
 }
 
