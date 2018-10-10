@@ -16,11 +16,9 @@ var format = "json";
 
 var full_api_string = "";
 
-// var weekly_scores = {
-//     game_week: "",
-//     game_num: []
-// };
 
+var weekly_scores = [];
+var score_obj = {};
 var weeknum = "";
 
 var gamnum = "";
@@ -99,7 +97,6 @@ function api_wky_scores(){
             // weekly_scores[game_no]["winner"] = game_wn;
         }
 
-        console.log(weekly_scores);
     });
 }
 

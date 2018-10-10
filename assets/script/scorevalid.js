@@ -1,6 +1,6 @@
-var week_id = "week06";
-var week_num = "6";
-var lstore = "";
+var week_id = "week01";
+var week_num = "1";
+var lstore = [];
 var game_winner = "";
 
 function give_points(){
