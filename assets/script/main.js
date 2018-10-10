@@ -164,3 +164,37 @@ curWeek = getWeek();
 console.log(firebase.auth());
 // startup();
 
+
+// Calculate weekly scores and overall score
+var weeklyScores = [];  //GLOBAL
+function totalCalc(){
+    for (i=0;i<17;i++){
+        if (weeklyScores[i]){
+            var ttlScore = 0;
+            ttlScore = ttlScore + weeklyScores[i];
+            return ttlScore;
+        } else {
+            return;
+        }
+    }
+}
+
+// Calculate weekly score
+function winlossTally(){
+    var correct = 0;
+    var incorrect = 0;
+    var ties = 0;
+    var points = 0;
+
+    if (pick == game_winner) {  //pull these from db
+        correct++;
+        points = points+2;
+    }else if (pick == "") { //no pick
+        points = points--;
+    }else if (pick == "T"){ //tie
+        ties++;
+        points++;
+    } else{  // no points for incorrect pick
+        incorrect++;
+    }
+}

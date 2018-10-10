@@ -11,7 +11,6 @@ var pickTeamsList = $("#pickTeams");
 var divEmpty;
 
 
-
 //create elements and render list with buttons
 function renderList(doc) {
     console.log(doc.data());
