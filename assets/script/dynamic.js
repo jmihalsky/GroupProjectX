@@ -6,11 +6,9 @@ db.collection("season2018").get().then((snapshot) => {
     })
 })
 
-
 //global vars
 var pickTeamsList = $("#pickTeams");
 var divEmpty;
-
 
 
 //create elements and render list with buttons
@@ -33,13 +31,12 @@ function renderList(doc) {
     div.append("<hr>");
 
     pickTeamsList.append(div);
-
 }
 
-
 //on PICK TEAMS button it will empty and display 
-$(document.body).on("click", ".pickButton", function (e) {
-    e.preventDefault();
+
+$("#pickTeams").on("click", ".pickButton", function () {
+
     var weekDoc = $(this).attr("id");
     radio_arry = [];
     db.collection("season2018").doc(weekDoc).collection(weekDoc).get().then((snapshot) => {
@@ -55,7 +52,6 @@ $(document.body).on("click", ".pickButton", function (e) {
 
 
 function renderPicks(doc) {
-    var week = divEmpty;
     var div = $("<div>");
     var titlep = $("<p>");
     var title = doc.game_number;
@@ -74,10 +70,10 @@ function renderPicks(doc) {
     home.attr("id", doc.game_home_alias);
     away.attr("id", doc.game_away_alias);
 
-    titlep.html("<strong>GAME #" + title + "</strong>")
-    gameNames.html(awayName + " <em>VS</em> " + homeName);
+    titlep.html("<h2>GAME #" + title + "</h2>")
+    gameNames.html("<h3>" + awayName + " <em>VS</em> " + homeName + "</h3>");
     div.attr("class", "newSection");
-    records.html("Record: " + aAbv + "   |   Record: " + hAbv);
+    records.html("<h4> Record: " + aAbv + "   |   Record: " + hAbv + "</h4>");
 
     // add radio buttons for user to pick winning team
     var game_id = "";
@@ -102,8 +98,10 @@ function renderPicks(doc) {
     pck_in_a.attr("id", doc.game_away_alias);
 
     var pck_lbl_a = $("<label>");
+
     pck_lbl_a.attr("for", game_id);
-    pck_lbl_a.html(doc.game_away_name);
+    pck_lbl_a.html("<h4>" + doc.game_away_name + "</h4>");
+
 
     var pck_in_b = $("<input>");
     pck_in_b.attr("type", "radio");
@@ -111,16 +109,23 @@ function renderPicks(doc) {
     pck_in_b.attr("id", doc.game_home_alias);
 
     var pck_lbl_b = $("<label>");
+
     pck_lbl_b.attr("for", game_id);
-    pck_lbl_b.html(doc.game_home_name);
+    pck_lbl_b.html("<h4>" + doc.game_home_name + "</h4>");
 
     usr_picks.append(pck_in_a, pck_lbl_a, pck_in_b, pck_lbl_b);
 
+
+    //start display
     div.append(titlep);
     div.append(away);
     div.append(home);
     div.append(gameNames);
     div.append(records);
+
+
+    //add odds
+    var week = divEmpty;
 
     if (week === "week01") { week = 1 };
     if (week === "week02") { week = 2 };
@@ -142,17 +147,23 @@ function renderPicks(doc) {
 
 
     if (curWeek == week) {
-        var hOdds = wkGameOdds[doc.game_home_alias].odds;
-        var aOdds = wkGameOdds[doc.game_away_alias].odds;
-        var odds = $("<p>");
-        odds.html("Odds: " + hOdds + "   |   Odds: " + aOdds);
-        div.append(odds);
+
+        if ((wkGameOdds[doc.game_home_alias] == undefined) || (wkGameOdds[doc.game_away_alias] === undefined)) {
+            var odds = $("<p>");
+            odds.html("<h4>No Odds</h4>");
+            div.append(odds);
+        } else {
+            var hOdds = wkGameOdds[doc.game_home_alias].odds;
+            var aOdds = wkGameOdds[doc.game_away_alias].odds;
+
+            var odds = $("<p>");
+            odds.html("<h4> Odds: " + hOdds + "   |   Odds: " + aOdds + "</h4>");
+            div.append(odds);
+        }
+
     }
 
     div.append(usr_picks);
-
-
-
     $("." + divEmpty).append(div);
 }
 
@@ -160,33 +171,38 @@ function renderPicks(doc) {
 function addButton() {
     var button = $("<button>").text("Submit Picks");
     button.attr("class", divEmpty);
+    button.attr("id", "submit");
     $("." + divEmpty).append(button);
+    $("." + divEmpty).css("margin-bottom", "70px");
 }
 
-$(document.body).on("click", "button", "." + divEmpty, function (e) {
-    e.preventDefault();
+
+
+$("#pickTeams").on("click", "#submit", function () {
+
     console.log("testing");
     submit_picks();
     $("." + divEmpty).empty();
+    $("." + divEmpty).css("margin-bottom", "0px");
 
     var div = $("." + divEmpty);
     var name = $("<span>");
     var button = $("<button>");
 
     div.attr("class", divEmpty);
-
     button.attr("class", "pickButton");
     button.attr("id", divEmpty);
     button.text("Make your picks!")
-
     name.text(divEmpty);
 
     div.append(name);
     div.append(button);
     div.append("<hr>");
+
 });
 
 function submit_picks() {
+
     for (var i = 0; i < radio_arry.length; i++)
     {
         var usr_pcks = $("input[name=" + radio_arry[i] + "]:checked").attr("id");
@@ -199,4 +215,5 @@ function submit_picks() {
         })
     }
 }
+
 
