@@ -1,3 +1,4 @@
+var radio_arry = [];
 
 db.collection("season2018").get().then((snapshot) => {
     snapshot.docs.forEach(doc => {
@@ -37,15 +38,16 @@ function renderList(doc) {
 
 
 //on PICK TEAMS button it will empty and display 
-$(document.body).on("click", ".pickButton", function () {
+$(document.body).on("click", ".pickButton", function (e) {
+    e.preventDefault();
     var weekDoc = $(this).attr("id");
-
+    radio_arry = [];
     db.collection("season2018").doc(weekDoc).collection(weekDoc).get().then((snapshot) => {
         snapshot.docs.forEach(doc => {
             renderPicks(doc.data());
         })
     })
-
+    console.log(radio_arry);
     divEmpty = weekDoc;
     $("." + divEmpty).empty();
     setTimeout(addButton, 500);
@@ -88,7 +90,9 @@ function renderPicks(doc) {
     {
         game_id = "game" + doc.game_number;
     }
-    
+
+    radio_arry.push(game_id);
+
     var usr_picks = $("<div>");
     usr_picks.addClass("game" + doc.game_number + "pick");
 
@@ -159,7 +163,8 @@ function addButton() {
     $("." + divEmpty).append(button);
 }
 
-$(document.body).on("click", "button", "." + divEmpty, function () {
+$(document.body).on("click", "button", "." + divEmpty, function (e) {
+    e.preventDefault();
     console.log("testing");
     submit_picks();
     $("." + divEmpty).empty();
@@ -182,45 +187,16 @@ $(document.body).on("click", "button", "." + divEmpty, function () {
 });
 
 function submit_picks() {
-    db.collection("season2018").doc(divEmpty).get().then(function(doc) {
-        if(doc.exists) 
-        {
-            var radio_arry = doc.data().games;
-                for(var i = 0; i < radio_arry.length; i++)
-                {
-                    var user_pick = $("input[name=" + radio_arry[i] + "]:checked").attr("id");
-                    console.log(radio_arry[i]);
-                    // db.collection("usr_picks").add({
-                    //     usrid: userID,
-                    //     week: divEmpty,
-                    //     game: radio_arry[i],
-                    //     usr_pick: user_pick,
-                    //     usr_points: 0
-                    // })
-                }
-            // if(doc.data().week_status == "closed")
-            // {
-            //     console.log("closed");
-            // }
-            // else
-            // {
-            //     var radio_arry = doc.data().games;
-            //     for(var i = 0; i < radio_arry.legnth; i++)
-            //     {
-            //         var user_pick = $("input[name" + radio_arry[i] + "]:checked").attr("id");
-            //         db.collection("usr_picks").add({
-            //             usrid: userID,
-            //             week: divEmpty,
-            //             game: radio_arry[i],
-            //             usr_pick: user_pick,
-            //             usr_points: 0
-            //         })
-            //     }
-            // }
-        }
-        else
-        {
-            console.log("document does not exist");
-        }
-    });
+    for (var i = 0; i < radio_arry.length; i++)
+    {
+        var usr_pcks = $("input[name=" + radio_arry[i] + "]:checked").attr("id");
+        db.collection("usr_picks").add({
+            userid: userID,
+            week: divEmpty,
+            game: radio_arry[i],
+            user_pick: usr_pcks,
+            user_points: 0
+        })
+    }
 }
+
