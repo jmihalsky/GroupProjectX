@@ -78,12 +78,10 @@ function renderPicks(doc) {
     // add radio buttons for user to pick winning team
     var game_id = "";
 
-    if (doc.game_number < 10)
-    {
+    if (doc.game_number < 10) {
         game_id = "game0" + doc.game_number;
     }
-    else
-    {
+    else {
         game_id = "game" + doc.game_number;
     }
 
@@ -203,16 +201,24 @@ $("#pickTeams").on("click", "#submit", function () {
 
 function submit_picks() {
 
-    for (var i = 0; i < radio_arry.length; i++)
-    {
+    for (var i = 0; i < radio_arry.length; i++) {
         var usr_pcks = $("input[name=" + radio_arry[i] + "]:checked").attr("id");
-        db.collection("usr_picks").add({
-            userid: userID,
-            week: divEmpty,
-            game: radio_arry[i],
-            user_pick: usr_pcks,
-            user_points: 0
+        db.collection("usr_picks").doc(userID + divEmpty + radio_arry[i]).get().then(function (doc) {
+            if (doc.exists) {
+
+            }
+            else {
+                var game_var = radio_arry[i]
+                db.collection("usr_picks").doc(userID + divEmpty + radio_arry[i]).set({
+                    userid: userID,
+                    week: divEmpty,
+                    game: game_var,
+                    user_pick: usr_pcks,
+                    user_points: 0
+                });
+            }
         })
+
     }
 }
 
