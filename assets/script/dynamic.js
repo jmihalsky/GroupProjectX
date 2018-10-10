@@ -72,29 +72,6 @@ function renderPicks(doc) {
     div.attr("class", "newSection");
     records.html("<h4> Record: " + aAbv + "   |   Record: " + hAbv + "</h4>");
 
-    // add radio buttons for user to pick winning team
-    var usr_picks = $("<div>");
-    usr_picks.addClass("game" + doc.game_number + "pick");
-
-    var pck_in_a = $("<input>");
-    pck_in_a.attr("type", "radio");
-    pck_in_a.attr("name", doc.game_number);
-    pck_in_a.attr("id", doc.game_away_alias);
-
-    var pck_lbl_a = $("<label>");
-    pck_lbl_a.attr("for", doc.game_number);
-    pck_lbl_a.html("<h4>" + doc.game_away_name + "</h4>");
-
-    var pck_in_b = $("<input>");
-    pck_in_b.attr("type", "radio");
-    pck_in_b.attr("name", doc.game_number);
-    pck_in_b.attr("id", doc.game_home_alias);
-
-    var pck_lbl_b = $("<label>");
-    pck_lbl_b.attr("for", doc.game_number);
-    pck_lbl_b.html("<h4>" + doc.game_home_name + "</h4>");
-    usr_picks.append(pck_in_a, pck_lbl_a, pck_in_b, pck_lbl_b);
-
 
     //start display
     div.append(titlep);
@@ -143,7 +120,34 @@ function renderPicks(doc) {
 
     }
 
+    // add radio buttons for user to pick winning team
+    var usr_picks = $("<div>");
+    usr_picks.addClass("game" + doc.game_number + "pick");
+
+    var pck_in_a = $("<input>");
+    pck_in_a.attr("type", "radio");
+    pck_in_a.attr("name", doc.game_number);
+    pck_in_a.attr("class", divEmpty);
+    pck_in_a.attr("id", doc.game_away_alias);
+
+    var pck_lbl_a = $("<label>");
+    pck_lbl_a.attr("for", doc.game_number);
+    pck_lbl_a.html("<h4>" + doc.game_away_name + "</h4>");
+
+    var pck_in_b = $("<input>");
+    pck_in_b.attr("type", "radio");
+    pck_in_b.attr("name", doc.game_number);
+    pck_in_b.attr("class", divEmpty);
+    pck_in_b.attr("id", doc.game_home_alias);
+
+    var pck_lbl_b = $("<label>");
+    pck_lbl_b.attr("for", doc.game_number);
+    pck_lbl_b.html("<h4>" + doc.game_home_name + "</h4>");
+    usr_picks.append(pck_in_a, pck_lbl_a, pck_in_b, pck_lbl_b);
+
     div.append(usr_picks);
+
+
     $("." + divEmpty).append(div);
 }
 
@@ -180,41 +184,6 @@ $("#pickTeams").on("click", "#submit", function () {
 });
 
 function submit_picks() {
-    db.collection("season2018").doc(divEmpty).get().then(function (doc) {
-        if (doc.exists) {
-            var radio_arry = doc.data().games;
-            for (var i = 0; i < radio_arry.length; i++) {
-                var user_pick = $("input[name=" + radio_arry[i] + "]:checked").attr("id");
-                db.collection("usr_picks").add({
-                    usrid: userID,
-                    week: divEmpty,
-                    game: radio_arry[i],
-                    usr_pick: user_pick,
-                    usr_points: 0
-                })
-            }
-            // if(doc.data().week_status == "closed")
-            // {
-            //     console.log("closed");
-            // }
-            // else
-            // {
-            //     var radio_arry = doc.data().games;
-            //     for(var i = 0; i < radio_arry.legnth; i++)
-            //     {
-            //         var user_pick = $("input[name" + radio_arry[i] + "]:checked").attr("id");
-            //         db.collection("usr_picks").add({
-            //             usrid: userID,
-            //             week: divEmpty,
-            //             game: radio_arry[i],
-            //             usr_pick: user_pick,
-            //             usr_points: 0
-            //         })
-            //     }
-            // }
-        }
-        else {
-            console.log("document does not exist");
-        }
-    });
+
+
 }
