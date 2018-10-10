@@ -220,23 +220,6 @@ function submit_picks() {
             user_points: 0
         });
         
-        // db.collection("usr_picks").doc(doc_key).get().then(function(doc) {
-        //     if (doc.exists)
-        //     {
-        //         console.log("doc exists");
-        //     }
-        //     else
-        //     {
-        //         console.log("create new doc");
-        //         db.collection("usr_picks").doc(doc_key).set({
-        //             userid: userID,
-        //             week: divEmpty,
-        //             game: game_var,
-        //             user_pick: usr_pcks,
-        //             user_points: 0
-        //         });
-        //     }
-        // })
         
     }
 }
