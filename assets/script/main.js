@@ -198,3 +198,20 @@ function winlossTally(){
         incorrect++;
     }
 }
+
+// Harvest weekly totals and put in local variable 
+function leaders(){
+    db.collection("usr").doc(userID).get().then(function(doc) {
+        if(doc.exists) {
+            for (i=0;i<17;i++){
+                var locWkTot;
+                if (i<10){locWkTot="week0"+i+"total"}
+                else {locWkTot="week"+i+"total"};
+                weeklyScores[i] = doc.user_id.$(locWkTot);
+            }        
+        };
+    console.log(weeklyScores);    
+    });
+}
+
+leaders();
