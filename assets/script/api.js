@@ -115,6 +115,7 @@ function user_points(){
         }
     })
     .then(function(response){
+        Storage.empty;
         Storage.prototype.setObj = function(key, obj)
         {
             return this.setItem(key, JSON.stringify(obj))

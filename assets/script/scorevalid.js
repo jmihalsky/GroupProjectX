@@ -1,5 +1,5 @@
-var week_id = "week05";
-var week_num = "5";
+var week_id = "week06";
+var week_num = "6";
 var lstore = "";
 var game_winner = "";
 
@@ -30,24 +30,24 @@ function give_points(){
 
 give_points();
 
-award_points(id, usr_pick){
-    if (game_winner == "T")
-    {
-        db.collection("user_picks").doc(id).update({
-            user_points: 1
-        })
+function award_points(id, usr_pick){
+        if (game_winner == "T")
+        {
+            db.collection("user_picks").doc(id).update({
+                user_points: 1
+            })
+        }
+        else if (game_winner == usr_pick)
+        {
+            db.collection("user_picks").doc(id).update({
+                user_points: 2
+            })
+        }
+        else
+        {
+            db.collection("user_picks").doc(id).update({
+                user_points: 0
+            })
+        }
+    
     }
-    else if (game_winner == usr_pick)
-    {
-        db.collection("user_picks").doc(id).update({
-            user_points: 2
-        })
-    }
-    else
-    {
-        db.colelction("user_picks").doc(id).update({
-            user_points: 0
-        })
-    }
-
-}
