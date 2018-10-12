@@ -13,13 +13,13 @@ var divEmpty;
 
 //create elements and render list with buttons
 function renderList(doc) {
-    console.log(doc.data());
+    var status = (doc.data().week_status);
     var div = $("<div>");
     var name = $("<span>");
     var button = $("<button>");
 
     div.attr("class", doc.id);
-
+    button.attr("name", status);
     button.attr("class", "pickButton");
     button.attr("id", doc.id);
     button.text("Make your picks!")
@@ -36,7 +36,7 @@ function renderList(doc) {
 //on PICK TEAMS button it will empty and display 
 
 $("#pickTeams").on("click", ".pickButton", function () {
-
+    status = $(this).attr("name");
     var weekDoc = $(this).attr("id");
     radio_arry = [];
     db.collection("season2018").doc(weekDoc).collection(weekDoc).get().then((snapshot) => {
@@ -76,42 +76,49 @@ function renderPicks(doc) {
     records.html("<h4> Record: " + aAbv + "   |   Record: " + hAbv + "</h4>");
 
     // add radio buttons for user to pick winning team
-    var game_id = "";
+    if (status === "open") {
+        var game_id = "";
 
-    if (doc.game_number < 10) {
-        game_id = "game0" + doc.game_number;
+        if (doc.game_number < 10) {
+            game_id = "game0" + doc.game_number;
+        }
+        else {
+            game_id = "game" + doc.game_number;
+        }
+
+        radio_arry.push(game_id);
+
+        var usr_picks = $("<div>");
+        usr_picks.addClass("game" + doc.game_number + "pick");
+
+        var pck_in_a = $("<input>");
+        pck_in_a.attr("type", "radio");
+        pck_in_a.attr("name", game_id);
+        pck_in_a.attr("id", doc.game_away_alias);
+
+        var pck_lbl_a = $("<label>");
+
+        pck_lbl_a.attr("for", game_id);
+        pck_lbl_a.html("<h4>" + doc.game_away_name + "</h4>");
+
+
+        var pck_in_b = $("<input>");
+        pck_in_b.attr("type", "radio");
+        pck_in_b.attr("name", game_id);
+        pck_in_b.attr("id", doc.game_home_alias);
+
+        var pck_lbl_b = $("<label>");
+
+        pck_lbl_b.attr("for", game_id);
+        pck_lbl_b.html("<h4>" + doc.game_home_name + "</h4>");
+
+        usr_picks.append(pck_in_a, pck_lbl_a, pck_in_b, pck_lbl_b);
+
+    } else {
+        var usr_picks = $("<div>");
+        usr_picks.text("Week is over you cannot make picks.")
     }
-    else {
-        game_id = "game" + doc.game_number;
-    }
 
-    radio_arry.push(game_id);
-
-    var usr_picks = $("<div>");
-    usr_picks.addClass("game" + doc.game_number + "pick");
-
-    var pck_in_a = $("<input>");
-    pck_in_a.attr("type", "radio");
-    pck_in_a.attr("name", game_id);
-    pck_in_a.attr("id", doc.game_away_alias);
-
-    var pck_lbl_a = $("<label>");
-
-    pck_lbl_a.attr("for", game_id);
-    pck_lbl_a.html("<h4>" + doc.game_away_name + "</h4>");
-
-
-    var pck_in_b = $("<input>");
-    pck_in_b.attr("type", "radio");
-    pck_in_b.attr("name", game_id);
-    pck_in_b.attr("id", doc.game_home_alias);
-
-    var pck_lbl_b = $("<label>");
-
-    pck_lbl_b.attr("for", game_id);
-    pck_lbl_b.html("<h4>" + doc.game_home_name + "</h4>");
-
-    usr_picks.append(pck_in_a, pck_lbl_a, pck_in_b, pck_lbl_b);
 
 
     //start display

@@ -1,5 +1,5 @@
-var week_id = "week01";
-var week_num = "1";
+var week_id = "week05";
+var week_num = "5";
 var lstore = [];
 var game_winner = "";
 
@@ -8,154 +8,79 @@ function give_points() {
     // api_wky_scores();
     user_points();
 
-<<<<<<< HEAD
     Storage.prototype.getObj = function (key) {
-=======
-    var fetchData = function () {
-        return new Promise(function (resolve,reject) {
-            resolve();
-        });
-    };
-
-    var updateData = function () {
-        return new Promise(function (resolve,reject) {
-            resolve();
-        });
-    };
-
-    Storage.prototype.getObj = function(key){
->>>>>>> 60524f76468b3c28bb4be3f4847a83b0adf13f07
         return JSON.parse(this.getItem(key))
     };
 
+
     lstore = JSON.parse(sessionStorage.getItem("gameresults"));
-<<<<<<< HEAD
+    console.log(lstore.length);
+
 
     for (var i = 0; i < lstore.length; i++) {
         var game_ctl = lstore[i].game;
         game_winner = lstore[i].winner;
-
-        db.collection("usr_picks").where("game", "==", game_ctl).get().then((snapshot) => {
-            snapshot.docs.forEach(doc => {
-                console.log(doc.id, doc.data());
-                award_points(doc.id, doc.data().user_pick, doc.data().game, doc.data().week, doc.data().userid, game_winner);
-            })
-        });
-    }
-=======
-    console.log(lstore.length);
-
-    for(var i = 0; i < lstore.length; i++)
-    {   
-        var game_ctl = lstore[i].game;
-        game_winner = lstore[i].winner;
         console.log(game_ctl);
-        fetchData(game_ctl, game_winner).then(function(){
-            db.collection("usr_picks").where("game","==",game_ctl).get().then((snapshot) => {
-                snapshot.docs.forEach(doc => {
-                    console.log(doc.id, doc.data());
-                    var docid = doc.id;
-                    var upick = doc.data().user_pick;
-                    var dweek = doc.data().week;
-                    var dgame = doc.data().game;
-                    var duser = doc.data().userid;
+        console.log(game_winner);
 
-                    // updateData(docid,upick,dgame,dweek,duser,game_winner).then(function(){
-                    //     award_points(docid,upick,dgame,dweek,duser,game_winner);
-                    // });
-                })
-            });
-        });
+        getData(game_ctl, game_winner);
     }
-    
-    // for(var i = 0; i < 17; i++)
-    // {
-    //     var game_ctl = lstore[i].game;
-    //     console.log(game_ctl);
-    //     game_winner = lstore[i].winner;
-
-    //     db.collection("usr_picks").where("game", "==", game_ctl).get().then((snapshot) => {
-    //         snapshot.docs.forEach(doc => {
-    //             console.log(doc.id, doc.data());
-    //             award_points(doc.id, doc.data().user_pick, doc.data().game, doc.data().week, doc.data().userid, game_winner);
-    //         })
-    //     });
-    // }
->>>>>>> 60524f76468b3c28bb4be3f4847a83b0adf13f07
 }
 
-give_points();
+function getData(game_ctl, game_winner) {
+    db.collection("user_picks").where("game", "==", game_ctl).get().then((snapshot) => {
+        snapshot.docs.forEach(doc => {
+            console.log(doc.id, doc.data());
+            var docid = doc.id;
+            var upick = doc.data().user_pick;
+            var dweek = doc.data().week;
+            var dgame = doc.data().game;
+            var duser = doc.data().userid;
 
-<<<<<<< HEAD
-function award_points(id, usr_pick, gamea, weeka, userida, gw) {
+            award_points(docid, upick, dgame, dweek, duser, game_winner);
+        })
+
+    })
+}
+
+
+function award_points(id, usr_pick, gamea, weeka, gw) {
     if (gw == "T") {
+        console.log(id, gamea, usr_pick, 1, weeka, gw);
+
         db.collection("user_picks").doc(id).set({
             game: gamea,
             user_pick: usr_pick,
             user_points: 1,
-            user_id: userida,
+            user_id: userID,
             week: weeka
-
         })
     }
     else if (gw == usr_pick) {
+        console.log(id, gamea, usr_pick, 2, weeka, gw);
         db.collection("user_picks").doc(id).set({
             game: gamea,
             user_pick: usr_pick,
             user_points: 2,
-            user_id: userida,
+            user_id: userID,
             week: weeka
         })
     }
     else {
+        console.log(id, gamea, usr_pick, 0, weeka, gw);
         db.collection("user_picks").doc(id).set({
             game: gamea,
             user_pick: usr_pick,
-            user_points: 0,
-            user_id: userida,
+            user_points: 1,
+            user_id: userID,
             week: weeka
         })
     }
 
 }
-=======
-function award_points(id, usr_pick, gamea, weeka, userida, gw){
-        if (gw == "T")
-        {
-            console.log(id,gamea,usr_pick,1,userida,weeka,gw);
-            // var docinfo = {
-            //     game: gamea,
-            //     user_pick: usr_pick,
-            //     user_points: 1,
-            //     user_id: userida,
-            //     week: weeka
-            // }
-            // db.collection("user_points").doc(id).set(docinfo);
-        }
-        else if (gw == usr_pick)
-        {
-            console.log(id,gamea,usr_pick,2,userida,weeka,gw);
-            // var docinfo = {
-            //     game: gamea,
-            //     user_pick: usr_pick,
-            //     user_points: 2,
-            //     user_id: userida,
-            //     week: weeka
-            // }
-            // db.collection("user_points").doc(id).set(docinfo);
-        }
-        else
-        {
-            console.log(id,gamea,usr_pick,0,userida,weeka,gw);
-            // var docinfo = {
-            //     game: gamea,
-            //     user_pick: usr_pick,
-            //     user_points: 0,
-            //     user_id: userida,
-            //     week: weeka
-            // }
-            // db.collection("user_points").doc(id).set(docinfo);
-        }
-    
-    }
->>>>>>> 60524f76468b3c28bb4be3f4847a83b0adf13f07
+
+give_points();
+
+
+
+
