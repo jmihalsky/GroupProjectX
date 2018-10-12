@@ -17,7 +17,7 @@ $(function () {
         type: "GET",
         data: "{body}",
     }).done(function (data) {
-        //console.log(data);
+        console.log(data);
         for (var i = 0; i < data.length; i++) {
             var tmRecord = {
                 team: "",
@@ -43,50 +43,50 @@ $(function () {
     })
 });
 
-// var wkGameOdds = {
+var wkGameOdds = {
 
-// };
+};
 
-// $(function () {
+$(function () {
 
-//     $.ajax({
-//         url: api2_url,
-//         beforeSend: function (xhrObj) {
-//             xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key", apikey);
-//         },
-//         type: "GET",
-//         data: "{body}",
-//     }).done(function (data) {
-//         console.log(data);
-//         for (var i = 0; i < data.length; i++) {
-//             var gameStats = {
-//                 hTeam: "",
-//                 aTeam: "",
-//                 hTeamOdds: 0,
-//                 aTeamOdds: 0
-//             };
-//             if (data[i].HomeTeamName === "JAX") { data[i].HomeTeamName = "JAC" };
-//             if (data[i].AwayTeamName === "LAR") { data[i].AwayTeamName = "LA" };
-//             if (data[i].HomeTeamName === "LAR") { data[i].HomeTeamName = "LA" };
-//             if (data[i].AwayTeamName === "JAX") { data[i].AwayTeamName = "JAC" };
+    $.ajax({
+        url: api2_url,
+        beforeSend: function (xhrObj) {
+            xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key", apikey);
+        },
+        type: "GET",
+        data: "{body}",
+    }).done(function (data) {
+        console.log(data);
+        for (var i = 0; i < data.length; i++) {
+            var gameStats = {
+                hTeam: "",
+                aTeam: "",
+                hTeamOdds: 0,
+                aTeamOdds: 0
+            };
+            if (data[i].HomeTeamName === "JAX") { data[i].HomeTeamName = "JAC" };
+            if (data[i].AwayTeamName === "LAR") { data[i].AwayTeamName = "LA" };
+            if (data[i].HomeTeamName === "LAR") { data[i].HomeTeamName = "LA" };
+            if (data[i].AwayTeamName === "JAX") { data[i].AwayTeamName = "JAC" };
 
-//             gameStats.hTeam = (data[i].HomeTeamName);
-//             gameStats.aTeam = (data[i].AwayTeamName);
+            gameStats.hTeam = (data[i].HomeTeamName);
+            gameStats.aTeam = (data[i].AwayTeamName);
 
 
-//             if (data[i].PregameOdds["0"] === undefined) {
-//                 console.log("skipped");
-//             } else {
-//                 gameStats.hTeamOdds = (data[i].PregameOdds["0"].HomeMoneyLine);
-//                 gameStats.aTeamOdds = (data[i].PregameOdds["0"].AwayMoneyLine);
-//                 wkGameOdds[gameStats.hTeam] = {
-//                     odds: gameStats.hTeamOdds
-//                 }
-//                 wkGameOdds[gameStats.aTeam] = {
-//                     odds: gameStats.aTeamOdds
-//                 }
-//             }
-//         }
-//         console.log(wkGameOdds);
-//     })
-// });
+            if (data[i].PregameOdds["0"] === undefined) {
+                console.log("skipped");
+            } else {
+                gameStats.hTeamOdds = (data[i].PregameOdds["0"].HomeMoneyLine);
+                gameStats.aTeamOdds = (data[i].PregameOdds["0"].AwayMoneyLine);
+                wkGameOdds[gameStats.hTeam] = {
+                    odds: gameStats.hTeamOdds
+                }
+                wkGameOdds[gameStats.aTeam] = {
+                    odds: gameStats.aTeamOdds
+                }
+            }
+        }
+        console.log(wkGameOdds);
+    })
+});
