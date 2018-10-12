@@ -1,12 +1,24 @@
-var week_id = "week05";
-var week_num = "5";
+var week_id = "";
+var week_num = "";
+var week_chk_num = 0;
 var lstore = [];
 var game_winner = "";
 var game_ctl = "";
 
+score_ctl();
+
+function score_ctl(){
+    db.collection("Game_control").doc("game_settings").get().then(function(doc){
+            week_id = doc.data().cur_week;
+            week_chk_num = doc.data().cur_week_num;
+            score_ctl_vld(week_id,week_chk_num);
+        
+    });
+}
+
 function give_points(){
     api_score_assembler();
-    // api_wky_scores();
+    api_wky_scores();
     user_points();
     console.log(curWeek);
 
@@ -37,9 +49,10 @@ function give_points(){
     }
 
     usr_total_str();
+    close_week();
 }
 
-give_points();
+// give_points();
 
 function get_games(game_ctl, game_winner){
     db.collection("usr_picks").where("game", "==", game_ctl).get().then((snapshot) => {
@@ -115,9 +128,10 @@ function usr_totaler(uid,week_id,udocid){
             utotal += upoints;
             return utotal;
         })
+        utot = utotal;
+        week_totaler(udocid,uid,week_id,utot);
     });
-    utot = utotal;
-    week_totaler(udocid,uid,week_id,utot);
+    
 }
 
 function week_totaler(udocid,uid,week_id,utot){
@@ -225,4 +239,31 @@ function week_totaler(udocid,uid,week_id,utot){
     }
 
     db.collection("usr").doc(udocid).update(docupt);
+}
+
+
+function close_week(){
+    var new_week = parseInt(week_num) + 1;
+    if( new_week < 10)
+    {
+        var new_week_id = "week0" + new_week;
+    }
+    else
+    {
+        var new_week_id = "week" + new_week;
+    }
+
+    var weekupt = {
+        cur_week: new_week_id,
+        cur_week_num: new_week
+    }
+    db.collection("Game_control").doc("game_settings").update(weekupt);
+}
+
+function score_ctl_vld(week_id, week_chk_num){
+    if(week_chk_num < curWeek)
+    {
+        week_num = week_chk_num;
+        give_points();
+    }
 }

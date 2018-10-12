@@ -161,6 +161,7 @@ curWeek = getWeek();
 
 
 
+
 console.log(firebase.auth());
 // startup();
 
