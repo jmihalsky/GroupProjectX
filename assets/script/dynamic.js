@@ -1,4 +1,5 @@
 var radio_arry = [];
+var totalScore;
 
 db.collection("season2018").get().then((snapshot) => {
     snapshot.docs.forEach(doc => {
@@ -225,5 +226,35 @@ function submit_picks() {
 
     }
 }
+///loads weekly score board
+db.collection("usr").get().then((snapshot) => {
+    var retValue = snapshot.docs;
+    for (i = 0; i < retValue.length; i++) {
+        var userAddr = retValue[i].data();
+        var userIDsc = retValue[i].data().userid;
 
+        if (userIDsc == userID) {
+            $("#w1").text(userAddr.week01total);
+            $("#w2").text(userAddr.week02total);
+            $("#w3").text(userAddr.week03total);
+            $("#w4").text(userAddr.week04total);
+            $("#w5").text(userAddr.week05total);
+            $("#w6").text(userAddr.week06total);
+            $("#w7").text(userAddr.week07total);
+            $("#w8").text(userAddr.week08total);
+            $("#w9").text(userAddr.week09total);
+            $("#w10").text(userAddr.week10total);
+            $("#w11").text(userAddr.week11total);
+            $("#w12").text(userAddr.week12total);
+            $("#w13").text(userAddr.week13total);
+            $("#w14").text(userAddr.week14total);
+            $("#w15").text(userAddr.week15total);
+            $("#w16").text(userAddr.week16total);
+            $("#w17").text(userAddr.week17total);
+            totalScore = userAddr.week01total + userAddr.week02total + userAddr.week03total + userAddr.week04total + userAddr.week05total + userAddr.week06total + userAddr.week07total + userAddr.week08total + userAddr.week09total + userAddr.week10total + userAddr.week11total
+                + userAddr.week12total + userAddr.week13total + userAddr.week14total + userAddr.week15total + userAddr.week16total + userAddr.week17total;
+            $("#wkTot").text(totalScore);
+        }
+    }
 
+})
