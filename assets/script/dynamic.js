@@ -258,3 +258,22 @@ db.collection("usr").get().then((snapshot) => {
     }
 
 })
+
+db.collection("usr").orderBy("season2018total","desc").get().then((snapshot) => {
+    snapshot.docs.forEach(doc => {
+        var uuname = doc.data().username;
+        var upoints = doc.data().season2018total;
+        leaders(uuname, upoints);
+    })
+});
+
+function leaders(uuname, upoints){
+    var ldrrow = $("<tr>");
+    var lduname = $("<td>").text(uuname);
+    var ldpoints = $("<td>").text(upoints);
+
+    ldrrow.append(lduname, ldpoints);
+
+    $("#tableLeaders").append(ldrrow);
+
+}
