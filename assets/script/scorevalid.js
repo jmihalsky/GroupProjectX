@@ -49,6 +49,7 @@ function give_points(){
     }
 
     usr_total_str();
+    usr_season_totals();
     close_week();
 }
 
@@ -266,4 +267,38 @@ function score_ctl_vld(week_id, week_chk_num){
         week_num = week_chk_num;
         give_points();
     }
+}
+
+function usr_season_totals(){
+    db.collection("usr").get().then((snapshot) => {
+        snapshot.docs.forEach(doc => {
+            var wk1 = doc.data().week01total;
+            var wk2 = doc.data().week02total;
+            var wk3 = doc.data().week03total;
+            var wk4 = doc.data().week04total;
+            var wk5 = doc.data().week05total;
+            var wk6 = doc.data().week06total;
+            var wk7 = doc.data().week07total;
+            var wk8 = doc.data().week08total;
+            var wk9 = doc.data().week09total;
+            var wk10 = doc.data().week10total;
+            var wk11 = doc.data().week11total;
+            var wk12 = doc.data().week12total;
+            var wk13 = doc.data().week13total;
+            var wk14 = doc.data().week14total;
+            var wk15 = doc.data().week15total;
+            var wk16 = doc.data().week16total;
+            var wk17 = doc.data().week17total;
+            usr_season_totaler(doc.id,wk1,wk2,wk3,wk4,wk5,wk6,wk7,wk8,wk9,wk10,wk11,wk12,wk13,wk14,wk15,wk16,wk17);
+        })
+    });
+}
+
+function usr_season_totaler(d_id,wk1,wk2,wk3,wk4,wk5,wk6,wk7,wk8,wk9,wk10,wk11,wk12,wk13,wk14,wk15,wk16,wk17){
+    var stotal = wk1 + wk2 + wk3 + wk4 + wk5 + wk6 + wk7 + wk8 + wk9 + wk10 + wk11 + wk12 + wk13 + wk14 + wk15 + wk16 + wk17;
+    var supt = {
+        season2018total: stotal
+    }
+
+    db.collection("usr").doc(d_id).update(supt);
 }
