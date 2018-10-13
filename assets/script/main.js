@@ -75,7 +75,7 @@ btnLogin.on("click", function (e) {
                 } else {
                     $(errorSection).empty();
                     showData = true;
-                    new_user(firebaseUser.uid);
+                    new_user(firebaseUser.uid, email);
                 }
                 return showData;
                 display();
@@ -115,7 +115,7 @@ auth.onAuthStateChanged(firebaseUser => {
     if (firebaseUser) {
         console.log(firebaseUser);
         userID = firebaseUser.uid;
-        new_user(firebaseUser.uid);
+        new_user(firebaseUser.uid,email);
         console.log(userID);
         $("#logoutBtn").css("display", "block");
         $("#login").css("display", "none");
