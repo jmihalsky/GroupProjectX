@@ -11,6 +11,7 @@ firebase.initializeApp(config);
 var auth = firebase.auth();
 var showData = false;
 var userID;
+var uname;
 
 const db = firebase.firestore();
 
@@ -34,6 +35,7 @@ btnLogin.on("click", function (e) {
         var emailTxt = $("#emailInput").val().trim();
         var passwordTxt = $("#passwordInput").val().trim();
         var email = emailTxt;
+        uname = emailTxt;
         var pass = passwordTxt;
         var auth = firebase.auth();
         if ($("#createAccount").is(":checked")) {
@@ -75,7 +77,7 @@ btnLogin.on("click", function (e) {
                 } else {
                     $(errorSection).empty();
                     showData = true;
-                    new_user(firebaseUser.uid, email);
+                    new_user(firebaseUser.uid, uname);
                 }
                 return showData;
                 display();
@@ -115,7 +117,7 @@ auth.onAuthStateChanged(firebaseUser => {
     if (firebaseUser) {
         console.log(firebaseUser);
         userID = firebaseUser.uid;
-        new_user(firebaseUser.uid,email);
+        new_user(firebaseUser.uid,uname);
         console.log(userID);
         $("#logoutBtn").css("display", "block");
         $("#login").css("display", "none");
