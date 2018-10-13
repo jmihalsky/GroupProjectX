@@ -7,45 +7,44 @@ var game_ctl = "";
 
 score_ctl();
 
-function score_ctl(){
-    db.collection("Game_control").doc("game_settings").get().then(function(doc){
-            week_id = doc.data().cur_week;
-            week_chk_num = doc.data().cur_week_num;
-            score_ctl_vld(week_id,week_chk_num);
-        
+function score_ctl() {
+    db.collection("Game_control").doc("game_settings").get().then(function (doc) {
+        week_id = doc.data().cur_week;
+        week_chk_num = doc.data().cur_week_num;
+        score_ctl_vld(week_id, week_chk_num);
+
     });
 }
 
-function give_points(){
+function give_points() {
     api_score_assembler();
     api_wky_scores();
     user_points();
     console.log(curWeek);
 
     var fetchData = function () {
-        return new Promise(function (resolve,reject) {
+        return new Promise(function (resolve, reject) {
             resolve();
         });
     };
 
     var updateData = function () {
-        return new Promise(function (resolve,reject) {
+        return new Promise(function (resolve, reject) {
             resolve();
         });
     };
 
-    Storage.prototype.getObj = function(key){
+    Storage.prototype.getObj = function (key) {
         return JSON.parse(this.getItem(key))
     };
 
     lstore = JSON.parse(sessionStorage.getItem("gameresults"));
 
-    for(var i = 0; i < lstore.length; i++)
-    {
+    for (var i = 0; i < lstore.length; i++) {
         game_ctl = lstore[i].game;
         game_winner = lstore[i].winner;
         console.log(game_ctl, game_winner);
-        get_games(game_ctl,game_winner);
+        get_games(game_ctl, game_winner);
     }
 
     usr_total_str();
@@ -55,185 +54,165 @@ function give_points(){
 
 // give_points();
 
-function get_games(game_ctl, game_winner){
+function get_games(game_ctl, game_winner) {
     db.collection("usr_picks").where("game", "==", game_ctl).get().then((snapshot) => {
         snapshot.docs.forEach(doc => {
-            console.log(doc.id,doc.data(),game_winner);
+            console.log(doc.id, doc.data(), game_winner);
             var docid = doc.id;
             var upick = doc.data().user_pick;
             var dweek = doc.data().week;
             var dgame = doc.data().game;
             var duser = doc.data().userid;
-            award_points(docid,upick,dgame,dweek,duser,game_winner);
+            award_points(docid, upick, dgame, dweek, duser, game_winner);
         })
     });
 }
 
-function award_points(id, usr_pick, gamea, weeka, userida, gw){
-        if (gw == "T")
-        {
-            console.log(id,gamea,usr_pick,1,userida,weeka,gw);
-            var docinfo = {
-                game: gamea,
-                user_pick: usr_pick,
-                user_points: 1,
-                user_id: userida,
-                week: weeka
-            }
-            db.collection("usr_picks").doc(id).set(docinfo);
+function award_points(id, usr_pick, gamea, weeka, userida, gw) {
+    if (gw == "T") {
+        console.log(id, gamea, usr_pick, 1, userida, weeka, gw);
+        var docinfo = {
+            game: gamea,
+            user_pick: usr_pick,
+            user_points: 1,
+            user_id: userida,
+            week: weeka
         }
-        else if (gw == usr_pick)
-        {
-            console.log(id,gamea,usr_pick,2,userida,weeka,gw);
-            var docinfo = {
-                game: gamea,
-                user_pick: usr_pick,
-                user_points: 2,
-                user_id: userida,
-                week: weeka
-            }
-            db.collection("usr_picks").doc(id).set(docinfo);
+        db.collection("usr_picks").doc(id).set(docinfo);
+    }
+    else if (gw == usr_pick) {
+        console.log(id, gamea, usr_pick, 2, userida, weeka, gw);
+        var docinfo = {
+            game: gamea,
+            user_pick: usr_pick,
+            user_points: 2,
+            user_id: userida,
+            week: weeka
         }
-        else
-        {
-            console.log(id,gamea,usr_pick,0,userida,weeka,gw);
-            var docinfo = {
-                game: gamea,
-                user_pick: usr_pick,
-                user_points: 0,
-                user_id: userida,
-                week: weeka
-            }
-            db.collection("usr_picks").doc(id).set(docinfo);
+        db.collection("usr_picks").doc(id).set(docinfo);
+    }
+    else {
+        console.log(id, gamea, usr_pick, 0, userida, weeka, gw);
+        var docinfo = {
+            game: gamea,
+            user_pick: usr_pick,
+            user_points: 0,
+            user_id: userida,
+            week: weeka
         }
-    
+        db.collection("usr_picks").doc(id).set(docinfo);
     }
 
-function usr_total_str(){
+}
+
+function usr_total_str() {
     db.collection("usr").get().then((snapshot) => {
         snapshot.docs.forEach(doc => {
             var uid = doc.data().userid;
             var udocid = doc.id;
-            usr_totaler(uid,week_id,udocid);
+            usr_totaler(uid, week_id, udocid);
         })
     });
 }
 
-function usr_totaler(uid,week_id,udocid){
+function usr_totaler(uid, week_id, udocid) {
     var utotal = 0;
     var utot = 0;
-    db.collection("usr_picks").where("user_id","==",uid).where("week","==",week_id).get().then((snapshot) => {
+    db.collection("usr_picks").where("user_id", "==", uid).where("week", "==", week_id).get().then((snapshot) => {
         snapshot.docs.forEach(doc => {
-            console.log(doc.data(),udocid);
+            console.log(doc.data(), udocid);
             var upoints = doc.data().user_points;
             utotal += upoints;
             return utotal;
         })
         utot = utotal;
-        week_totaler(udocid,uid,week_id,utot);
+        week_totaler(udocid, uid, week_id, utot);
     });
-    
+
 }
 
-function week_totaler(udocid,uid,week_id,utot){
-    if (week_id == "week01")
-    {
+function week_totaler(udocid, uid, week_id, utot) {
+    if (week_id == "week01") {
         var docupt = {
             week01total: utot
         }
     }
-    else if (week_id == "week02")
-    {
+    else if (week_id == "week02") {
         var docupt = {
             week02total: utot
         }
     }
-    else if (week_id == "week03")
-    {
+    else if (week_id == "week03") {
         var docupt = {
             week03total: utot
         }
     }
-    else if (week_id == "week04")
-    {
+    else if (week_id == "week04") {
         var docupt = {
             week04total: utot
         }
     }
-    else if (week_id == "week05")
-    {
+    else if (week_id == "week05") {
         var docupt = {
             week05total: utot
         }
     }
-    else if (week_id == "week06")
-    {
+    else if (week_id == "week06") {
         var docupt = {
             week06total: utot
         }
     }
-    else if (week_id == "week07")
-    {
+    else if (week_id == "week07") {
         var docupt = {
             week07total: utot
         }
     }
-    else if (week_id == "week08")
-    {
+    else if (week_id == "week08") {
         var docupt = {
             week08total: utot
         }
     }
-    else if (week_id == "week09")
-    {
+    else if (week_id == "week09") {
         var docupt = {
             week09total: utot
         }
     }
-    else if (week_id == "week10")
-    {
+    else if (week_id == "week10") {
         var docupt = {
             week10total: utot
         }
     }
-    else if (week_id == "week11")
-    {
+    else if (week_id == "week11") {
         var docupt = {
             week11total: utot
         }
     }
-    else if (week_id == "week12")
-    {
+    else if (week_id == "week12") {
         var docupt = {
             week12total: utot
         }
     }
-    else if (week_id == "week13")
-    {
+    else if (week_id == "week13") {
         var docupt = {
             week13total: utot
         }
     }
-    else if (week_id == "week14")
-    {
+    else if (week_id == "week14") {
         var docupt = {
             week14total: utot
         }
     }
-    else if (week_id == "week15")
-    {
+    else if (week_id == "week15") {
         var docupt = {
             week15total: utot
         }
     }
-    else if (week_id == "week16")
-    {
+    else if (week_id == "week16") {
         var docupt = {
             week16total: utot
         }
     }
-    else if (week_id == "week17")
-    {
+    else if (week_id == "week17") {
         var docupt = {
             week17total: utot
         }
@@ -243,14 +222,12 @@ function week_totaler(udocid,uid,week_id,utot){
 }
 
 
-function close_week(){
+function close_week() {
     var new_week = parseInt(week_num) + 1;
-    if( new_week < 10)
-    {
+    if (new_week < 10) {
         var new_week_id = "week0" + new_week;
     }
-    else
-    {
+    else {
         var new_week_id = "week" + new_week;
     }
 
@@ -261,15 +238,14 @@ function close_week(){
     db.collection("Game_control").doc("game_settings").update(weekupt);
 }
 
-function score_ctl_vld(week_id, week_chk_num){
-    if(week_chk_num < curWeek)
-    {
+function score_ctl_vld(week_id, week_chk_num) {
+    if (week_chk_num < curWeek) {
         week_num = week_chk_num;
         give_points();
     }
 }
 
-function usr_season_totals(){
+function usr_season_totals() {
     db.collection("usr").get().then((snapshot) => {
         snapshot.docs.forEach(doc => {
             var wk1 = doc.data().week01total;
@@ -289,12 +265,12 @@ function usr_season_totals(){
             var wk15 = doc.data().week15total;
             var wk16 = doc.data().week16total;
             var wk17 = doc.data().week17total;
-            usr_season_totaler(doc.id,wk1,wk2,wk3,wk4,wk5,wk6,wk7,wk8,wk9,wk10,wk11,wk12,wk13,wk14,wk15,wk16,wk17);
+            usr_season_totaler(doc.id, wk1, wk2, wk3, wk4, wk5, wk6, wk7, wk8, wk9, wk10, wk11, wk12, wk13, wk14, wk15, wk16, wk17);
         })
     });
 }
 
-function usr_season_totaler(d_id,wk1,wk2,wk3,wk4,wk5,wk6,wk7,wk8,wk9,wk10,wk11,wk12,wk13,wk14,wk15,wk16,wk17){
+function usr_season_totaler(d_id, wk1, wk2, wk3, wk4, wk5, wk6, wk7, wk8, wk9, wk10, wk11, wk12, wk13, wk14, wk15, wk16, wk17) {
     var stotal = wk1 + wk2 + wk3 + wk4 + wk5 + wk6 + wk7 + wk8 + wk9 + wk10 + wk11 + wk12 + wk13 + wk14 + wk15 + wk16 + wk17;
     var supt = {
         season2018total: stotal
@@ -302,3 +278,4 @@ function usr_season_totaler(d_id,wk1,wk2,wk3,wk4,wk5,wk6,wk7,wk8,wk9,wk10,wk11,w
 
     db.collection("usr").doc(d_id).update(supt);
 }
+
